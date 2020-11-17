@@ -5,4 +5,97 @@
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    @* Search filter *@
+    <div style="border: solid 1px grey; display: flex; flex-direction: column; border-radius: 10px;">
+        <div style="display: flex; width: 100%; justify-content: space-between; padding:10px">
+            <div class="filter-row">
+                <label class="mr-sm-2" for="inlineFormCustomSelect">VRSTA NEPREMIČNINE</label>
+                <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+                    <option selected>Hiša</option>
+                    <option value="1">Posest</option>
+                    <option value="2">Stanovanje</option>
+                    <option value="3">Garaža</option>
+                </select>
+            </div>
+            <div class="filter-row">
+                <label class="mr-sm-2" for="inlineFormCustomSelect">VRSTA PONUDBE</label>
+                <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+                    <option selected>Prodaja</option>
+                    <option value="1">Oddaja</option>
+
+                </select>
+            </div>
+        </div>
+        <div style="display: flex; width: 100%; justify-content: space-between; padding:10px">
+            <div class="filter-row">
+                <label class="mr-sm-2" for="inlineFormCustomSelect">REGIJA</label>
+                <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+                    <option selected>Pomurska regija</option>
+                    <option value="1">Podravska regija</option>
+                    <option value="1">Koroška regija</option>
+                    <option value="1">Savinjska regija</option>
+                    <option value="1">Zasavska regija</option>
+                    <option value="1">Posavska regija</option>
+                    <option value="1"> Jugovzhodna Slovenija</option>
+                    <option value="1"> Osrednjeslovenska regija</option>
+                    <option value="1">Gorenjska regija</option>
+                    <option value="1">Primorsko-notranjska regija</option>
+                    <option value="1"> Goriška regija</option>
+                    <option value="1"> Obalno-kraška regija</option>
+
+                </select>
+            </div>
+            <div class="filter-row">
+                <label class="mr-sm-2" for="inlineFormCustomSelect">VELIKOST</label>
+                <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+                    <option selected>Do 50 &#x33A1</option>
+                    <option value="1">100 - 150 &#x33A1</option>
+                    <option value="1">150 - 200 &#x33A1</option>
+                    <option value="1">200 in več &#x33A1</option>
+                </select>
+            </div>
+        </div>
+        <div style="display: flex; width: 100%; justify-content: space-between; padding:10px">
+            <div class="filter-row">
+                <label class="mr-sm-2" for="inlineFormCustomSelect">LETO</label>
+                <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+                    <option selected>Do 1949</option>
+                    <option value="1">1950 - 1959 </option>
+                    <option value="1">1960 - 1969 </option>
+                    <option value="1">1970 - 1979 </option>
+                    <option value="1">1980 - 1989 </option>
+                    <option value="1">1990 - 1999 </option>
+                    <option value="1">2000 - 2009 </option>
+                    <option value="1">2010 - 2018 </option>
+
+                </select>
+            </div>
+            <div class="filter-row">
+                <label class="mr-sm-2" for="inlineFormCustomSelect">CENA</label>
+                <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+                    <option selected>Do 200.000 &euro;</option>
+                    <option value="1">200.000 - 400.000 &euro;</option>
+                    <option value="1">400.000 - 600.000 &euro;</option>
+
+                </select>
+            </div>
+        </div>
+    </div>
+
+
+    @* Recently added *@
+    <h2 style="margin-top: 100px;">Recently Added</h2>
+    <div class="recentlyAddedMain">
+        <div class="card" style="width: 18rem;">
+            <img class="card-img-top" src="~/contents/house.png">
+            <div class="card-body">
+                <h5 class="card-title">Card title</h5>
+                <p class="card-text">Cena</p>
+                <p class="card-text">Lokacija</p>
+                <p class="card-text">Velikost</p>
+                <a href="#" class="btn btn-primary">Go somewhere</a>
+            </div>
+        </div>
+    </div>
+</div>
 </div>
