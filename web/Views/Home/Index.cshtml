@@ -1,12 +1,13 @@
 ﻿@model IEnumerable<web.Models.Listing>
 @{
     ViewData["Title"] = "Home Page";
+    ViewData["test"] = "ola";
 }
 
 <div class="text-left">
     @* Search filter *@
     <h2 style="margin-top: 50px; margin-bottom:50px ">Iskanje Nepremičnin</h2>
-
+    <h2>@ViewData["test"]</h2>
     <div class="search-filter">
         <div style="display: flex; width: 100%; justify-content: space-between; padding:10px">
             <div class="filter-row">
@@ -83,7 +84,8 @@
 
         </div>
         <div style="width: 70%; padding: 10px;">
-            <button type="button" class="btn btn-primary">IŠČI NEPREMIČNINE</button>
+            <button type="button" class="btn btn-primary" asp-route-id="2" asp-controller="Home" asp-action="Index">IŠČI
+                NEPREMIČNINE</button>
         </div>
 
     </div>
@@ -93,7 +95,7 @@
         @foreach (var item in Model)
         {
             <div class="card" style="width: 18rem;">
-                <img class="card-img-top" src="~/contents/house.png">
+                <img class="card-img-top" src="@Html.DisplayFor(modelItem => item.ImageLink)">
                 <div class="card-body">
                     <h5 class="card-title">@Html.DisplayFor(modelItem => item.REType.Type) @Html.DisplayFor(modelItem =>
                                                                                               item.LType.Type)</h5>
@@ -102,7 +104,8 @@
                     <p class="card-text"><span>Naslov:</span> @Html.DisplayFor(modelItem => item.Address)</p>
                     <p class="card-text"><span>Cena:</span> @Html.DisplayFor(modelItem => item.Price) €</p>
 
-                    <a href="#" class="btn btn-primary">Odpri oglas</a>
+                    <a class="btn btn-primary" asp-route-id="@item.Id" asp-controller="Listings" asp-action="Details">Odpri
+                        oglas</a>
                 </div>
             </div>
         }

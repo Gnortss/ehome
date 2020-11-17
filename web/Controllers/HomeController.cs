@@ -21,13 +21,21 @@ namespace web.Controllers
             _logger = logger;
             _context = context;
         }
-
         public async Task<IActionResult> IndexAsync()
         {
             var ehomeContext = _context.Listings
                 .Include(l => l.LType)
                 .Include(l => l.REType)
                 .OrderByDescending(l => l.DateOfEntry);
+            return View(await ehomeContext.ToListAsync());
+        }
+
+        [Route("/{vn}/{vp}/{region}")]
+        public async Task<IActionResult> IndexAsync(int id)
+        {
+            var ehomeContext = _context.Listings
+                .Include(l => l.LType)
+                .Include(l => l.REType);
             return View(await ehomeContext.ToListAsync());
         }
 

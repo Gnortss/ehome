@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace web.Controllers
 {
-    [Authorize]
+    
     public class ListingsController : Controller
     {
         private readonly EhomeContext _context;
@@ -25,6 +25,7 @@ namespace web.Controllers
         }
 
         // GET: Listings
+        [Authorize]
         public async Task<IActionResult> Index()
         {
             var currentUser = await _usermanager.GetUserAsync(User);
@@ -56,6 +57,7 @@ namespace web.Controllers
         }
 
         // GET: Listings/Create
+        [Authorize]
         public IActionResult Create()
         {
             ViewData["ListingType"] = new SelectList(_context.ListingType, "Type", "Type");
@@ -85,6 +87,7 @@ namespace web.Controllers
         }
 
         // GET: Listings/Edit/5
+        [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -140,6 +143,7 @@ namespace web.Controllers
         }
 
         // GET: Listings/Delete/5
+        [Authorize]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
