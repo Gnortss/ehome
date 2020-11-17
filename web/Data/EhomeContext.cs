@@ -1,9 +1,10 @@
 using web.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace web.Data
 {
-    public class EhomeContext : DbContext
+    public class EhomeContext : IdentityDbContext<ApplicationUser>
     {
         public EhomeContext(DbContextOptions<EhomeContext> options) : base(options)
         {
@@ -16,6 +17,7 @@ namespace web.Data
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
+            base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<ListingType>().Property(e => e.Type).ValueGeneratedNever();
             modelBuilder.Entity<RealEstateType>().Property(e => e.Type).ValueGeneratedNever();
 

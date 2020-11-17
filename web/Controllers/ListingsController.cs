@@ -7,22 +7,31 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using web.Data;
 using web.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace web.Controllers
 {
+    [Authorize]
     public class ListingsController : Controller
     {
         private readonly EhomeContext _context;
+        private readonly UserManager<ApplicationUser> _usermanager;
 
-        public ListingsController(EhomeContext context)
+        public ListingsController(EhomeContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _usermanager = userManager;
         }
 
         // GET: Listings
         public async Task<IActionResult> Index()
         {
-            var ehomeContext = _context.Listings.Include(l => l.LType).Include(l => l.REType);
+            var currentUser = await _usermanager.GetUserAsync(User);
+            var ehomeContext = _context.Listings
+                .Include(l => l.LType)
+                .Include(l => l.REType)
+                .Where(l => l.Owner == currentUser);
             return View(await ehomeContext.ToListAsync());
         }
 
@@ -61,9 +70,11 @@ namespace web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Region,Address,Size,Year,ImageLink,Description,Price,RealEstateType,ListingType")] Listing listing)
         {
+            var currentUser = await _usermanager.GetUserAsync(User);
             if (ModelState.IsValid)
             {
                 listing.DateOfEntry = DateTime.Now;
+                listing.Owner = currentUser;
                 _context.Add(listing);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
