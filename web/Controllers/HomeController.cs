@@ -6,21 +6,29 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using web.Models;
+using web.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace web.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly EhomeContext _context;
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, EhomeContext context)
         {
             _logger = logger;
+            _context = context;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> IndexAsync()
         {
-            return View();
+            var ehomeContext = _context.Listings
+                .Include(l => l.LType)
+                .Include(l => l.REType)
+                .OrderByDescending(l => l.DateOfEntry);
+            return View(await ehomeContext.ToListAsync());
         }
 
         public IActionResult Privacy()

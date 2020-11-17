@@ -1,10 +1,9 @@
-﻿@{
+﻿@model IEnumerable<web.Models.Listing>
+@{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
     @* Search filter *@
     <div style="border: solid 1px grey; display: flex; flex-direction: column; border-radius: 10px;">
         <div style="display: flex; width: 100%; justify-content: space-between; padding:10px">
@@ -84,18 +83,94 @@
 
 
     @* Recently added *@
-    <h2 style="margin-top: 100px;">Recently Added</h2>
-    <div class="recentlyAddedMain">
+    @* <h2 style="margin-top: 100px;">Recently Added</h2>
+        <div class="recentlyAddedMain">
         <div class="card" style="width: 18rem;">
-            <img class="card-img-top" src="~/contents/house.png">
-            <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">Cena</p>
-                <p class="card-text">Lokacija</p>
-                <p class="card-text">Velikost</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
-            </div>
+        <img class="card-img-top" src="~/contents/house.png">
+        <div class="card-body">
+        <h5 class="card-title">Card title</h5>
+        <p class="card-text">Cena</p>
+        <p class="card-text">Lokacija</p>
+        <p class="card-text">Velikost</p>
+        <a href="#" class="btn btn-primary">Go somewhere</a>
         </div>
-    </div>
+        </div>
+        <div class="card" style="width: 18rem;">
+        <img class="card-img-top" src="~/contents/house.png">
+        <div class="card-body">
+        <h5 class="card-title">Card title</h5>
+        <p class="card-text">Cena</p>
+        <p class="card-text">Lokacija</p>
+        <p class="card-text">Velikost</p>
+        <a href="#" class="btn btn-primary">Go somewhere</a>
+        </div>
+        </div>
+        <div class="card" style="width: 18rem;">
+        <img class="card-img-top" src="~/contents/house.png">
+        <div class="card-body">
+        <h5 class="card-title">Card title</h5>
+        <p class="card-text">Cena</p>
+        <p class="card-text">Lokacija</p>
+        <p class="card-text">Velikost</p>
+        <a href="#" class="btn btn-primary">Go somewhere</a>
+        </div>
+        </div>
+        </div> *@
+<h2 style="margin-top: 100px;">Recently Added</h2>
+<div class="recentlyAddedMain">
+    @foreach (var item in Model)
+    {
+        <tr>
+            
+                <div class="card" style="width: 18rem;">
+                    <img class="card-img-top" src="~/contents/house.png">
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <p class="card-text">@Html.DisplayFor(modelItem => item.Price)</p>
+                        <p class="card-text">@Html.DisplayFor(modelItem => item.Address)</p>
+                        <p class="card-text">@Html.DisplayFor(modelItem => item.Size)</p>
+                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                    </div>
+                </div>
+
+
+            @* <td>
+                @Html.DisplayFor(modelItem => item.DateOfEntry)
+                </td>
+                <td>
+                @Html.DisplayFor(modelItem => item.Region)
+                </td>
+                <td>
+                @Html.DisplayFor(modelItem => item.Address)
+                </td>
+                <td>
+                @Html.DisplayFor(modelItem => item.Size)
+                </td>
+                <td>
+                @Html.DisplayFor(modelItem => item.Year)
+                </td>
+                <td>
+                @Html.DisplayFor(modelItem => item.ImageLink)
+                </td>
+                <td>
+                @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                @Html.DisplayFor(modelItem => item.REType.Type)
+                </td>
+                <td>
+                @Html.DisplayFor(modelItem => item.LType.Type)
+                </td>
+                <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td> *@
+        </tr>
+    }
+        </div>
 </div>
 </div>
