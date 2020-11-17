@@ -3,9 +3,11 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
+<div class="text-left">
     @* Search filter *@
-    <div style="border: solid 1px grey; display: flex; flex-direction: column; border-radius: 10px;">
+    <h2 style="margin-top: 50px; margin-bottom:50px ">Iskanje Nepremičnin</h2>
+
+    <div class="search-filter">
         <div style="display: flex; width: 100%; justify-content: space-between; padding:10px">
             <div class="filter-row">
                 <label class="mr-sm-2" for="inlineFormCustomSelect">VRSTA NEPREMIČNINE</label>
@@ -78,99 +80,64 @@
 
                 </select>
             </div>
+
         </div>
+        <div style="width: 70%; padding: 10px;">
+            <button type="button" class="btn btn-primary">IŠČI NEPREMIČNINE</button>
+        </div>
+
     </div>
 
+    <h2 style="margin-top: 100px;">Nazadnje Dodane</h2>
+    <div class="recentlyAddedMain">
+        @foreach (var item in Model)
+        {
+            <div class="card" style="width: 18rem;">
+                <img class="card-img-top" src="~/contents/house.png">
+                <div class="card-body">
+                    <h5 class="card-title">@Html.DisplayFor(modelItem => item.REType.Type) @Html.DisplayFor(modelItem =>
+                                                                                              item.LType.Type)</h5>
+                    <p class="card-text"><span>Velikost:</span> @Html.DisplayFor(modelItem =>
+                                                                   item.Size) &#x33A1</p>
+                    <p class="card-text"><span>Naslov:</span> @Html.DisplayFor(modelItem => item.Address)</p>
+                    <p class="card-text"><span>Cena:</span> @Html.DisplayFor(modelItem => item.Price) €</p>
 
-    @* Recently added *@
-    @* <h2 style="margin-top: 100px;">Recently Added</h2>
-        <div class="recentlyAddedMain">
-        <div class="card" style="width: 18rem;">
-        <img class="card-img-top" src="~/contents/house.png">
-        <div class="card-body">
-        <h5 class="card-title">Card title</h5>
-        <p class="card-text">Cena</p>
-        <p class="card-text">Lokacija</p>
-        <p class="card-text">Velikost</p>
-        <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
-        </div>
-        <div class="card" style="width: 18rem;">
-        <img class="card-img-top" src="~/contents/house.png">
-        <div class="card-body">
-        <h5 class="card-title">Card title</h5>
-        <p class="card-text">Cena</p>
-        <p class="card-text">Lokacija</p>
-        <p class="card-text">Velikost</p>
-        <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
-        </div>
-        <div class="card" style="width: 18rem;">
-        <img class="card-img-top" src="~/contents/house.png">
-        <div class="card-body">
-        <h5 class="card-title">Card title</h5>
-        <p class="card-text">Cena</p>
-        <p class="card-text">Lokacija</p>
-        <p class="card-text">Velikost</p>
-        <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
-        </div>
-        </div> *@
-<h2 style="margin-top: 100px;">Recently Added</h2>
-<div class="recentlyAddedMain">
-    @foreach (var item in Model)
-    {
-        <tr>
-            
-                <div class="card" style="width: 18rem;">
-                    <img class="card-img-top" src="~/contents/house.png">
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">@Html.DisplayFor(modelItem => item.Price)</p>
-                        <p class="card-text">@Html.DisplayFor(modelItem => item.Address)</p>
-                        <p class="card-text">@Html.DisplayFor(modelItem => item.Size)</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
-                    </div>
+                    <a href="#" class="btn btn-primary">Odpri oglas</a>
                 </div>
+            </div>
+        }
+        <div class="card" style="width: 18rem;">
+            <img class="card-img-top" src="~/contents/house.png">
+            <div class="card-body">
+                <h5 class="card-title">ola</h5>
+                <p class="card-text"><span>Velikost:</span> 100 &#x33A1</p>
+                <p class="card-text"><span>Naslov:</span> sdsadads</p>
+                <p class="card-text"><span>Cena:</span> 500 €</p>
 
-
-            @* <td>
-                @Html.DisplayFor(modelItem => item.DateOfEntry)
-                </td>
-                <td>
-                @Html.DisplayFor(modelItem => item.Region)
-                </td>
-                <td>
-                @Html.DisplayFor(modelItem => item.Address)
-                </td>
-                <td>
-                @Html.DisplayFor(modelItem => item.Size)
-                </td>
-                <td>
-                @Html.DisplayFor(modelItem => item.Year)
-                </td>
-                <td>
-                @Html.DisplayFor(modelItem => item.ImageLink)
-                </td>
-                <td>
-                @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
-                @Html.DisplayFor(modelItem => item.Price)
-                </td>
-                <td>
-                @Html.DisplayFor(modelItem => item.REType.Type)
-                </td>
-                <td>
-                @Html.DisplayFor(modelItem => item.LType.Type)
-                </td>
-                <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </td> *@
-        </tr>
-    }
+                <a href="#" class="btn btn-primary">Odpri oglas</a>
+            </div>
         </div>
-</div>
+        <div class="card" style="width: 18rem;">
+            <img class="card-img-top" src="~/contents/house.png">
+            <div class="card-body">
+                <h5 class="card-title">ola</h5>
+                <p class="card-text"><span>Velikost:</span> 100 &#x33A1</p>
+                <p class="card-text"><span>Naslov:</span> sdsadads</p>
+                <p class="card-text"><span>Cena:</span> 500 €</p>
+
+                <a href="#" class="btn btn-primary">Odpri oglas</a>
+            </div>
+        </div>
+        <div class="card" style="width: 18rem;">
+            <img class="card-img-top" src="~/contents/house.png">
+            <div class="card-body">
+                <h5 class="card-title">ola</h5>
+                <p class="card-text"><span>Velikost:</span> 100 &#x33A1</p>
+                <p class="card-text"><span>Naslov:</span> sdsadads</p>
+                <p class="card-text"><span>Cena:</span> 500 €</p>
+
+                <a href="#" class="btn btn-primary">Odpri oglas</a>
+            </div>
+        </div>
+    </div>
 </div>
