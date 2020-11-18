@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -13,10 +14,12 @@ namespace web.Controllers
     public class FavoritesController : Controller
     {
         private readonly EhomeContext _context;
+        private readonly UserManager<ApplicationUser> _usermanager;
 
-        public FavoritesController(EhomeContext context)
+        public FavoritesController(EhomeContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _usermanager = userManager;
         }
 
         // GET: Favorites
@@ -33,8 +36,10 @@ namespace web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ListingId")] Favorite favorite)
         {
+            var currentUser = await _usermanager.GetUserAsync(User);
             if (ModelState.IsValid)
             {
+                favorite.User = currentUser;
                 _context.Add(favorite);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
