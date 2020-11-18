@@ -155,6 +155,17 @@ namespace web.Data
             foreach (Listing e in listings)
                 context.Listings.Add(e);
             context.SaveChanges();
+
+            var favorites = new Favorite[]
+            {
+                new Favorite{ListingId = listings[0].Id, UserId=user.Id},
+                new Favorite{ListingId = listings[1].Id, UserId=user.Id},
+                new Favorite{ListingId = listings[2].Id, UserId=user.Id}
+            };
+
+            foreach (Favorite e in favorites)
+                context.Add(e);
+            context.SaveChanges();
         }
     }
 }
