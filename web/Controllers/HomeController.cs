@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging;
 using web.Models;
 using web.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace web.Controllers
 {
@@ -15,14 +16,19 @@ namespace web.Controllers
     {
         private readonly EhomeContext _context;
         private readonly ILogger<HomeController> _logger;
+        private readonly UserManager<ApplicationUser> _usermanager;
 
-        public HomeController(ILogger<HomeController> logger, EhomeContext context)
+
+        public HomeController(ILogger<HomeController> logger, EhomeContext context, UserManager<ApplicationUser> userManager)
         {
             _logger = logger;
             _context = context;
+            _usermanager = userManager;
         }
         public async Task<IActionResult> IndexAsync(string vrstaNepremicnine,string vrstaPonudbe, string regija, string velikost,string leto,string cena)
         {
+            var currentUser = await _usermanager.GetUserAsync(User);
+            ViewData["isLogged"] = currentUser != null;
             if(vrstaNepremicnine != null) {
                 string[] loceno = velikost.Split(",");
                 int prva = Int32.Parse(loceno[0]);
