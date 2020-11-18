@@ -28,7 +28,8 @@ namespace web.Controllers
         public async Task<IActionResult> IndexAsync(string vrstaNepremicnine,string vrstaPonudbe, string regija, string velikost,string leto,string cena)
         {
             var currentUser = await _usermanager.GetUserAsync(User);
-            ViewData["isLogged"] = currentUser != null;
+            ViewData["isLogged"] = currentUser != null ? currentUser.Id : null;
+            ViewData["Favorite"] = currentUser != null ? _context.Favorite.Where(l => l.User == currentUser).ToList() : null;
             if(vrstaNepremicnine != null) {
                 string[] loceno = velikost.Split(",");
                 int prva = Int32.Parse(loceno[0]);
