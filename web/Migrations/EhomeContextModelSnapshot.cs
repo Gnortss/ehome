@@ -222,6 +222,28 @@ namespace web.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("web.Models.Favorite", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ListingId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ListingId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Favorite");
+                });
+
             modelBuilder.Entity("web.Models.Listing", b =>
                 {
                     b.Property<int>("Id")
@@ -238,11 +260,14 @@ namespace web.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("GroupId")
+                        .HasColumnType("int");
+
                     b.Property<string>("ImageLink")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ListingType")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("ListingType")
+                        .HasColumnType("int");
 
                     b.Property<string>("OwnerId")
                         .HasColumnType("nvarchar(450)");
@@ -250,11 +275,8 @@ namespace web.Migrations
                     b.Property<float>("Price")
                         .HasColumnType("real");
 
-                    b.Property<string>("RealEstateType")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Region")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("RegionId")
+                        .HasColumnType("int");
 
                     b.Property<int>("Size")
                         .HasColumnType("int");
@@ -264,33 +286,72 @@ namespace web.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("GroupId");
+
                     b.HasIndex("ListingType");
 
                     b.HasIndex("OwnerId");
 
-                    b.HasIndex("RealEstateType");
+                    b.HasIndex("RegionId");
 
                     b.ToTable("Listing");
                 });
 
             modelBuilder.Entity("web.Models.ListingType", b =>
                 {
-                    b.Property<string>("Type")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
 
-                    b.HasKey("Type");
+                    b.Property<string>("Type")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
 
                     b.ToTable("ListingType");
                 });
 
+            modelBuilder.Entity("web.Models.RealEstateGroup", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Group")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TypeId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TypeId");
+
+                    b.ToTable("RealEstateGroup");
+                });
+
             modelBuilder.Entity("web.Models.RealEstateType", b =>
                 {
-                    b.Property<string>("Type")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
 
-                    b.HasKey("Type");
+                    b.Property<string>("Type")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
 
                     b.ToTable("RealEstateType");
+                });
+
+            modelBuilder.Entity("web.Models.Region", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Region");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -344,19 +405,51 @@ namespace web.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("web.Models.Favorite", b =>
+                {
+                    b.HasOne("web.Models.Listing", "Listing")
+                        .WithMany("Favorites")
+                        .HasForeignKey("ListingId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("web.Models.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+                });
+
             modelBuilder.Entity("web.Models.Listing", b =>
                 {
+                    b.HasOne("web.Models.RealEstateGroup", "REGroup")
+                        .WithMany()
+                        .HasForeignKey("GroupId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("web.Models.ListingType", "LType")
                         .WithMany()
-                        .HasForeignKey("ListingType");
+                        .HasForeignKey("ListingType")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("web.Models.ApplicationUser", "Owner")
                         .WithMany()
                         .HasForeignKey("OwnerId");
 
+                    b.HasOne("web.Models.Region", "Region")
+                        .WithMany()
+                        .HasForeignKey("RegionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("web.Models.RealEstateGroup", b =>
+                {
                     b.HasOne("web.Models.RealEstateType", "REType")
                         .WithMany()
-                        .HasForeignKey("RealEstateType");
+                        .HasForeignKey("TypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

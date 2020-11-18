@@ -20,7 +20,7 @@
             @Html.DisplayNameFor(model => model.Region)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Region)
+            @Html.DisplayFor(model => model.Region.Name)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Address)
@@ -59,10 +59,16 @@
             @Html.DisplayFor(model => model.Price)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.REType)
+            @Html.DisplayNameFor(model => model.REGroup)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.REType.Type)
+            @Html.DisplayFor(model => model.REGroup.Group)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.REGroup.REType)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.REGroup.REType.Type)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.LType)

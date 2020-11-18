@@ -17,10 +17,8 @@ namespace web.Data
 
             var listingTypes = new ListingType[]
             {
-                new ListingType{Type="Nakup"},
-                new ListingType{Type="Najem"},
-                new ListingType{Type="Prodaja"},
-                new ListingType{Type="Oddaja"},
+                new ListingType{Id=1, Type="Prodaja"},
+                new ListingType{Id=2, Type="Oddaja"}
             };
 
             foreach (ListingType e in listingTypes)
@@ -29,14 +27,42 @@ namespace web.Data
 
             var reTypes = new RealEstateType[]
             {
-                new RealEstateType{Type="Hisa"},
-                new RealEstateType{Type="Stanovanje"},
-                new RealEstateType{Type="Garaza"},
-                new RealEstateType{Type="Posest"}
+                new RealEstateType{Id=0, Type="Drugo"},
+                new RealEstateType{Id=1, Type="Samostojna"},
+                new RealEstateType{Id=2, Type="Vrstna"},
+                new RealEstateType{Id=3, Type="Atrijska"},
+                new RealEstateType{Id=4, Type="Drugo"},
+                new RealEstateType{Id=5, Type="Apartma"},
+                new RealEstateType{Id=6, Type="Garsonjera"},
+                new RealEstateType{Id=7, Type="1-sobno"},
+                new RealEstateType{Id=8, Type="Drugo"},
+                new RealEstateType{Id=9, Type="Zazidljiva"},
+                new RealEstateType{Id=10, Type="Nezazidljiva"},
+                new RealEstateType{Id=11, Type="Drugo"}
             };
 
             foreach (RealEstateType e in reTypes)
                 context.RealEstateType.Add(e);
+            context.SaveChanges();
+
+            var reGroups = new RealEstateGroup[]
+            {
+                new RealEstateGroup{Id=1, Group="Hisa", TypeId=0},
+                new RealEstateGroup{Id=2, Group="Hisa", TypeId=1},
+                new RealEstateGroup{Id=3, Group="Hisa", TypeId=2},
+                new RealEstateGroup{Id=4, Group="Hisa", TypeId=3},
+                new RealEstateGroup{Id=5, Group="Stanovanje", TypeId=4},
+                new RealEstateGroup{Id=6, Group="Stanovanje", TypeId=5},
+                new RealEstateGroup{Id=7, Group="Stanovanje", TypeId=6},
+                new RealEstateGroup{Id=8, Group="Stanovanje", TypeId=7},
+                new RealEstateGroup{Id=9, Group="Posest", TypeId=8},
+                new RealEstateGroup{Id=10, Group="Posest", TypeId=9},
+                new RealEstateGroup{Id=11, Group="Posest", TypeId=10},
+                new RealEstateGroup{Id=12, Group="Garaza", TypeId=11},
+            };
+
+            foreach (RealEstateGroup e in reGroups)
+                context.RealEstateGroup.Add(e);
             context.SaveChanges();
 
             var roles = new IdentityRole[] {
@@ -102,11 +128,31 @@ namespace web.Data
                 context.UserRoles.Add(r);
             context.SaveChanges();
 
+            var regions = new Region[]
+            {
+                new Region{Id=1, Name="Pomurska regija"},
+                new Region{Id=2, Name="Podravska regija"},
+                new Region{Id=3, Name="Koroška regija"},
+                new Region{Id=4, Name="Savinjska regija"},
+                new Region{Id=5, Name="Zasavska regija"},
+                new Region{Id=6, Name="Posavska regija"},
+                new Region{Id=7, Name="Jugovzhodna regija"},
+                new Region{Id=8, Name="Osrednjeslovenska regija"},
+                new Region{Id=9, Name="Gorenjska regija"},
+                new Region{Id=10, Name="Primorsko-notranjska regija"},
+                new Region{Id=11, Name="Goriška regija"},
+                new Region{Id=12, Name="Obalno-kraška regija"}
+            };
+
+            foreach (Region e in regions)
+                context.Region.Add(e);
+            context.SaveChanges();
+
             var listings = new Listing[]
             {
-                new Listing{DateOfEntry=DateTime.Now, Region="Ljubljana", Address="Primorska ulica 10, 1000 Ljubljana", Size=102, Year=2000, ImageLink="https://i.imgur.com/hWfismm.gif", Description="This is description.", Price=100000, ListingType="Prodaja", RealEstateType="Hisa", Owner=user},
-                new Listing{DateOfEntry=DateTime.Now, Region="Ljubljana", Address="Slovenska cesta 5, 1000 Ljubljana", Size=45, Year=2020, ImageLink="https://i.imgur.com/hWfismm.gif", Description="This is description.", Price=750, ListingType="Oddaja", RealEstateType="Stanovanje", Owner=user},
-                new Listing{DateOfEntry=DateTime.Now, Region="Piran", Address="Dantejeva ulica 31, 6300 Piran", Size=50, Year=2021, ImageLink="https://i.imgur.com/hWfismm.gif", Description="This is description.", Price=1000, ListingType="Oddaja", RealEstateType="Stanovanje", Owner=user},
+                new Listing{DateOfEntry=DateTime.Now, RegionId=8, Address="Primorska ulica 10, 1000 Ljubljana", Size=102, Year=2000, ImageLink="https://i.imgur.com/hWfismm.gif", Description="This is description.", Price=100000, ListingType=1, GroupId=2, Owner=user},
+                new Listing{DateOfEntry=DateTime.Now, RegionId=8, Address="Slovenska cesta 5, 1000 Ljubljana", Size=45, Year=2020, ImageLink="https://i.imgur.com/hWfismm.gif", Description="This is description.", Price=750, ListingType=2, GroupId=7, Owner=user},
+                new Listing{DateOfEntry=DateTime.Now, RegionId=12, Address="Dantejeva ulica 31, 6300 Piran", Size=50, Year=2021, ImageLink="https://i.imgur.com/hWfismm.gif", Description="This is description.", Price=1000, ListingType=2, GroupId=7, Owner=user},
             };
 
             foreach (Listing e in listings)
