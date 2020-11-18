@@ -7,8 +7,8 @@ namespace web.Models
     {
         [Key]
         public int Id { get; set; }
+        public string FullName { get; set; }
         public string Group { get; set; }
-
         public int TypeId { get; set; }
         [ForeignKey("TypeId")]
         public RealEstateType REType { get; set; }

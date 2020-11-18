@@ -64,9 +64,9 @@ namespace web.Controllers
         [Authorize]
         public IActionResult Create()
         {
-            ViewData["ListingType"] = new SelectList(_context.ListingType, "Id", "Id");
-            ViewData["GroupId"] = new SelectList(_context.RealEstateGroup, "Id", "Id");
-            ViewData["RegionId"] = new SelectList(_context.Region, "Id", "Id");
+            ViewData["ListingType"] = new SelectList(_context.ListingType, "Id", "Type");
+            ViewData["GroupId"] = new SelectList(_context.RealEstateGroup, "Id", "FullName");
+            ViewData["RegionId"] = new SelectList(_context.Region, "Id", "Name");
             return View();
         }
 
@@ -76,17 +76,20 @@ namespace web.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
-        public async Task<IActionResult> Create([Bind("Id,DateOfEntry,RegionId,Address,Size,Year,ImageLink,Description,Price,GroupId,ListingType")] Listing listing)
+        public async Task<IActionResult> Create([Bind("RegionId,Address,Size,Year,ImageLink,Description,Price,GroupId,ListingType")] Listing listing)
         {
+            var currentUser = await _usermanager.GetUserAsync(User);
             if (ModelState.IsValid)
             {
+                listing.DateOfEntry = DateTime.Now;
+                listing.Owner = currentUser;
                 _context.Add(listing);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             ViewData["ListingType"] = new SelectList(_context.ListingType, "Id", "Type", listing.ListingType);
-            ViewData["GroupId"] = new SelectList(_context.RealEstateGroup, "Id", "Id", listing.GroupId);
-            ViewData["RegionId"] = new SelectList(_context.Region, "Id", "Id", listing.RegionId);
+            ViewData["GroupId"] = new SelectList(_context.RealEstateGroup, "Id", "FullName", listing.GroupId);
+            ViewData["RegionId"] = new SelectList(_context.Region, "Id", "Name", listing.RegionId);
             return View(listing);
         }
 
@@ -110,7 +113,7 @@ namespace web.Controllers
                 return NotFound();
             }
             ViewData["ListingType"] = new SelectList(_context.ListingType, "Id", "Type", listing.ListingType);
-            ViewData["Group"] = new SelectList(_context.RealEstateGroup, "Id", "Group", group.TypeId);
+            ViewData["FullGroup"] = new SelectList(_context.RealEstateGroup.Where(e => e.Group == group.Group), "Id", "FullName", group.TypeId);
             ViewData["Region"] = new SelectList(_context.Region, "Id", "Name", listing.RegionId);
             return View(listing);
         }
