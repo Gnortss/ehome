@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace web.Migrations
 {
-    public partial class start : Migration
+    public partial class Start : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -51,22 +51,36 @@ namespace web.Migrations
                 name: "ListingType",
                 columns: table => new
                 {
-                    Type = table.Column<string>(nullable: false)
+                    Id = table.Column<int>(nullable: false),
+                    Type = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ListingType", x => x.Type);
+                    table.PrimaryKey("PK_ListingType", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "RealEstateType",
                 columns: table => new
                 {
-                    Type = table.Column<string>(nullable: false)
+                    Id = table.Column<int>(nullable: false),
+                    Type = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RealEstateType", x => x.Type);
+                    table.PrimaryKey("PK_RealEstateType", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Region",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false),
+                    Name = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Region", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -176,32 +190,57 @@ namespace web.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "RealEstateGroup",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false),
+                    Group = table.Column<string>(nullable: true),
+                    TypeId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RealEstateGroup", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_RealEstateGroup_RealEstateType_TypeId",
+                        column: x => x.TypeId,
+                        principalTable: "RealEstateType",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Listing",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     DateOfEntry = table.Column<DateTime>(nullable: false),
-                    Region = table.Column<string>(nullable: true),
+                    RegionId = table.Column<int>(nullable: false),
                     Address = table.Column<string>(nullable: true),
                     Size = table.Column<int>(nullable: false),
                     Year = table.Column<int>(nullable: false),
                     ImageLink = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     Price = table.Column<float>(nullable: false),
-                    RealEstateType = table.Column<string>(nullable: true),
-                    ListingType = table.Column<string>(nullable: true),
+                    GroupId = table.Column<int>(nullable: false),
+                    ListingType = table.Column<int>(nullable: false),
                     OwnerId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Listing", x => x.Id);
                     table.ForeignKey(
+                        name: "FK_Listing_RealEstateGroup_GroupId",
+                        column: x => x.GroupId,
+                        principalTable: "RealEstateGroup",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
                         name: "FK_Listing_ListingType_ListingType",
                         column: x => x.ListingType,
                         principalTable: "ListingType",
-                        principalColumn: "Type",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Listing_AspNetUsers_OwnerId",
                         column: x => x.OwnerId,
@@ -209,10 +248,36 @@ namespace web.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Listing_RealEstateType_RealEstateType",
-                        column: x => x.RealEstateType,
-                        principalTable: "RealEstateType",
-                        principalColumn: "Type",
+                        name: "FK_Listing_Region_RegionId",
+                        column: x => x.RegionId,
+                        principalTable: "Region",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Favorite",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ListingId = table.Column<int>(nullable: false),
+                    UserId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Favorite", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Favorite_Listing_ListingId",
+                        column: x => x.ListingId,
+                        principalTable: "Listing",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Favorite_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -256,6 +321,21 @@ namespace web.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Favorite_ListingId",
+                table: "Favorite",
+                column: "ListingId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Favorite_UserId",
+                table: "Favorite",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Listing_GroupId",
+                table: "Listing",
+                column: "GroupId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Listing_ListingType",
                 table: "Listing",
                 column: "ListingType");
@@ -266,9 +346,14 @@ namespace web.Migrations
                 column: "OwnerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Listing_RealEstateType",
+                name: "IX_Listing_RegionId",
                 table: "Listing",
-                column: "RealEstateType");
+                column: "RegionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RealEstateGroup_TypeId",
+                table: "RealEstateGroup",
+                column: "TypeId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -289,16 +374,25 @@ namespace web.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Listing");
+                name: "Favorite");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Listing");
+
+            migrationBuilder.DropTable(
+                name: "RealEstateGroup");
 
             migrationBuilder.DropTable(
                 name: "ListingType");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Region");
 
             migrationBuilder.DropTable(
                 name: "RealEstateType");

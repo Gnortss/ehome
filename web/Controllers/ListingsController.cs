@@ -7,12 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using web.Data;
 using web.Models;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace web.Controllers
 {
-    
     public class ListingsController : Controller
     {
         private readonly EhomeContext _context;
@@ -30,9 +29,12 @@ namespace web.Controllers
         {
             var currentUser = await _usermanager.GetUserAsync(User);
             var ehomeContext = _context.Listings
+                .Include(l => l.Region)
                 .Include(l => l.LType)
-                .Include(l => l.REType)
+                .Include(l => l.REGroup)
+                .Include(l => l.REGroup.REType)
                 .Where(l => l.Owner == currentUser);
+                
             return View(await ehomeContext.ToListAsync());
         }
 
@@ -45,8 +47,10 @@ namespace web.Controllers
             }
 
             var listing = await _context.Listings
+                .Include(l => l.Region)
                 .Include(l => l.LType)
-                .Include(l => l.REType)
+                .Include(l => l.REGroup)
+                .Include(l => l.REGroup.REType)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (listing == null)
             {
@@ -60,8 +64,9 @@ namespace web.Controllers
         [Authorize]
         public IActionResult Create()
         {
-            ViewData["ListingType"] = new SelectList(_context.ListingType, "Type", "Type");
-            ViewData["RealEstateType"] = new SelectList(_context.RealEstateType, "Type", "Type");
+            ViewData["ListingType"] = new SelectList(_context.ListingType, "Id", "Id");
+            ViewData["GroupId"] = new SelectList(_context.RealEstateGroup, "Id", "Id");
+            ViewData["RegionId"] = new SelectList(_context.Region, "Id", "Id");
             return View();
         }
 
@@ -70,38 +75,43 @@ namespace web.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Region,Address,Size,Year,ImageLink,Description,Price,RealEstateType,ListingType")] Listing listing)
+        [Authorize]
+        public async Task<IActionResult> Create([Bind("Id,DateOfEntry,RegionId,Address,Size,Year,ImageLink,Description,Price,GroupId,ListingType")] Listing listing)
         {
-            var currentUser = await _usermanager.GetUserAsync(User);
             if (ModelState.IsValid)
             {
-                listing.DateOfEntry = DateTime.Now;
-                listing.Owner = currentUser;
                 _context.Add(listing);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ListingType"] = new SelectList(_context.ListingType, "Type", "Type", listing.ListingType);
-            ViewData["RealEstateType"] = new SelectList(_context.RealEstateType, "Type", "Type", listing.RealEstateType);
+            ViewData["ListingType"] = new SelectList(_context.ListingType, "Id", "Type", listing.ListingType);
+            ViewData["GroupId"] = new SelectList(_context.RealEstateGroup, "Id", "Id", listing.GroupId);
+            ViewData["RegionId"] = new SelectList(_context.Region, "Id", "Id", listing.RegionId);
             return View(listing);
         }
 
         // GET: Listings/Edit/5
-        [Authorize]
+        // [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
+
+            var currentUser = await _usermanager.GetUserAsync(User);
+            ViewData["isLogged"] = currentUser != null;
+
             if (id == null)
             {
                 return NotFound();
             }
 
             var listing = await _context.Listings.FindAsync(id);
+            var group = await _context.RealEstateGroup.FindAsync(listing.GroupId);
             if (listing == null)
             {
                 return NotFound();
             }
-            ViewData["ListingType"] = new SelectList(_context.ListingType, "Type", "Type", listing.ListingType);
-            ViewData["RealEstateType"] = new SelectList(_context.RealEstateType, "Type", "Type", listing.RealEstateType);
+            ViewData["ListingType"] = new SelectList(_context.ListingType, "Id", "Type", listing.ListingType);
+            ViewData["Group"] = new SelectList(_context.RealEstateGroup, "Id", "Group", group.TypeId);
+            ViewData["Region"] = new SelectList(_context.Region, "Id", "Name", listing.RegionId);
             return View(listing);
         }
 
@@ -110,7 +120,8 @@ namespace web.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,DateOfEntry,Region,Address,Size,Year,ImageLink,Description,Price,RealEstateType,ListingType")] Listing listing)
+        [Authorize]
+        public async Task<IActionResult> Edit(int id, [Bind("Id,DateOfEntry,RegionId,Address,Size,Year,ImageLink,Description,Price,GroupId,ListingType")] Listing listing)
         {
             if (id != listing.Id)
             {
@@ -137,8 +148,9 @@ namespace web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ListingType"] = new SelectList(_context.ListingType, "Type", "Type", listing.ListingType);
-            ViewData["RealEstateType"] = new SelectList(_context.RealEstateType, "Type", "Type", listing.RealEstateType);
+            ViewData["ListingType"] = new SelectList(_context.ListingType, "Id", "Id", listing.ListingType);
+            ViewData["GroupId"] = new SelectList(_context.RealEstateGroup, "Id", "Id", listing.GroupId);
+            ViewData["RegionId"] = new SelectList(_context.Region, "Id", "Id", listing.RegionId);
             return View(listing);
         }
 
@@ -153,7 +165,8 @@ namespace web.Controllers
 
             var listing = await _context.Listings
                 .Include(l => l.LType)
-                .Include(l => l.REType)
+                .Include(l => l.REGroup)
+                .Include(l => l.Region)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (listing == null)
             {
@@ -166,6 +179,7 @@ namespace web.Controllers
         // POST: Listings/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var listing = await _context.Listings.FindAsync(id);

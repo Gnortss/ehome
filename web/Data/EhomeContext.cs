@@ -13,13 +13,19 @@ namespace web.Data
 
         public DbSet<Listing> Listings { get; set; }
         public DbSet<ListingType> ListingType { get; set; }
+        public DbSet<RealEstateGroup> RealEstateGroup { get; set; }
         public DbSet<RealEstateType> RealEstateType { get; set; }
+        public DbSet<Favorite> Favorite { get; set; }
+
+        public DbSet<Region> Region { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<ListingType>().Property(e => e.Type).ValueGeneratedNever();
-            modelBuilder.Entity<RealEstateType>().Property(e => e.Type).ValueGeneratedNever();
+            modelBuilder.Entity<ListingType>().Property(e => e.Id).ValueGeneratedNever();
+            modelBuilder.Entity<RealEstateType>().Property(e => e.Id).ValueGeneratedNever();
+            modelBuilder.Entity<RealEstateGroup>().Property(e => e.Id).ValueGeneratedNever();
+            modelBuilder.Entity<Region>().Property(e => e.Id).ValueGeneratedNever();
 
             modelBuilder.Entity<Listing>().ToTable("Listing");
         }

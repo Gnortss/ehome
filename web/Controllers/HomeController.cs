@@ -28,35 +28,24 @@ namespace web.Controllers
                 int prva = Int32.Parse(loceno[0]);
                 int druga = Int32.Parse(loceno[1]);
                 var ehomeContext = _context.Listings
-                .Include(l => l.LType)
-                .Include(l => l.REType)
-                .Where(l => l.RealEstateType == vrstaNepremicnine && l.ListingType == vrstaPonudbe && l.Size >= prva && l.Size <= druga)
-                
-                .OrderByDescending(l => l.DateOfEntry);
+                    .Include(l => l.LType)
+                    .Include(l => l.REGroup)
+                    .Include(l => l.Region)
+                    // .Where(l => l.RealEstateType == vrstaNepremicnine && l.ListingType == vrstaPonudbe && l.Size >= prva && l.Size <= druga)
+                    .OrderByDescending(l => l.DateOfEntry);
                 return View(await ehomeContext.ToListAsync());
             }
             else {
                 var ehomeContext = _context.Listings
                     .Include(l => l.LType)
-                    .Include(l => l.REType)
+                    .Include(l => l.REGroup)
+                    .Include(l => l.Region)
                     .OrderByDescending(l => l.DateOfEntry);
                     return View(await ehomeContext.ToListAsync());
             }
 
             
         }
-// vrstaNepremicnine=Hiša&vrstaPonudbe=Prodaja&regija=Pomurska+regija&velikost=Do+50+㎡&leto=Do+1949&cena=Do+200.000+€
-        // [HttpGet]
-        // [ActionName ("Filter")]
-        // [Route ("Home/Filter")]
-        // public async Task<IActionResult> IndexAsync(string vrstaNepremicnine,string vrstaPonudbe, string regija, string velikost,string leto,string cena)
-        // {
-        //     var ehomeContext = _context.Listings
-        //         .Include(l => l.LType)
-        //         .Include(l => l.REType)
-        //         .Where(l => l.RealEstateType == vrstaNepremicnine);
-        //     return View(await ehomeContext.ToListAsync());
-        // }
 
         public IActionResult Privacy()
         {
