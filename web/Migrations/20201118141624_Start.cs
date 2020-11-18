@@ -194,6 +194,7 @@ namespace web.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false),
+                    FullName = table.Column<string>(nullable: true),
                     Group = table.Column<string>(nullable: true),
                     TypeId = table.Column<int>(nullable: false)
                 },

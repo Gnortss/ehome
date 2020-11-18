@@ -110,7 +110,7 @@ namespace web.Controllers
                 return NotFound();
             }
             ViewData["ListingType"] = new SelectList(_context.ListingType, "Id", "Type", listing.ListingType);
-            ViewData["Group"] = new SelectList(_context.RealEstateGroup, "Id", "Group", group.TypeId);
+            ViewData["FullGroup"] = new SelectList(_context.RealEstateGroup.Where(e => e.Group == group.Group), "Id", "FullName", group.TypeId);
             ViewData["Region"] = new SelectList(_context.Region, "Id", "Name", listing.RegionId);
             return View(listing);
         }

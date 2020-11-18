@@ -315,6 +315,9 @@ namespace web.Migrations
                     b.Property<int>("Id")
                         .HasColumnType("int");
 
+                    b.Property<string>("FullName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Group")
                         .HasColumnType("nvarchar(max)");
 

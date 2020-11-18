@@ -31,14 +31,11 @@ namespace web.Data
                 new RealEstateType{Id=1, Type="Samostojna"},
                 new RealEstateType{Id=2, Type="Vrstna"},
                 new RealEstateType{Id=3, Type="Atrijska"},
-                new RealEstateType{Id=4, Type="Drugo"},
-                new RealEstateType{Id=5, Type="Apartma"},
-                new RealEstateType{Id=6, Type="Garsonjera"},
-                new RealEstateType{Id=7, Type="1-sobno"},
-                new RealEstateType{Id=8, Type="Drugo"},
-                new RealEstateType{Id=9, Type="Zazidljiva"},
-                new RealEstateType{Id=10, Type="Nezazidljiva"},
-                new RealEstateType{Id=11, Type="Drugo"}
+                new RealEstateType{Id=4, Type="Apartma"},
+                new RealEstateType{Id=5, Type="Garsonjera"},
+                new RealEstateType{Id=6, Type="1-sobno"},
+                new RealEstateType{Id=7, Type="Zazidljiva"},
+                new RealEstateType{Id=8, Type="Nezazidljiva"}
             };
 
             foreach (RealEstateType e in reTypes)
@@ -47,18 +44,18 @@ namespace web.Data
 
             var reGroups = new RealEstateGroup[]
             {
-                new RealEstateGroup{Id=1, Group="Hisa", TypeId=0},
-                new RealEstateGroup{Id=2, Group="Hisa", TypeId=1},
-                new RealEstateGroup{Id=3, Group="Hisa", TypeId=2},
-                new RealEstateGroup{Id=4, Group="Hisa", TypeId=3},
-                new RealEstateGroup{Id=5, Group="Stanovanje", TypeId=4},
-                new RealEstateGroup{Id=6, Group="Stanovanje", TypeId=5},
-                new RealEstateGroup{Id=7, Group="Stanovanje", TypeId=6},
-                new RealEstateGroup{Id=8, Group="Stanovanje", TypeId=7},
-                new RealEstateGroup{Id=9, Group="Posest", TypeId=8},
-                new RealEstateGroup{Id=10, Group="Posest", TypeId=9},
-                new RealEstateGroup{Id=11, Group="Posest", TypeId=10},
-                new RealEstateGroup{Id=12, Group="Garaza", TypeId=11},
+                new RealEstateGroup{Id=1, FullName="Hiša - Samostojna", Group="Hiša", TypeId=1},
+                new RealEstateGroup{Id=2, FullName="Hiša - Vrstna", Group="Hiša", TypeId=2},
+                new RealEstateGroup{Id=3, FullName="Hiša - Atrijska", Group="Hiša", TypeId=3},
+                new RealEstateGroup{Id=4, FullName="Hiša - Drugo", Group="Hiša", TypeId=0},
+                new RealEstateGroup{Id=5, FullName="Stanovanje - Apartma", Group="Stanovanje", TypeId=4},
+                new RealEstateGroup{Id=6, FullName="Stanovanje - Garsonjera", Group="Stanovanje", TypeId=4},
+                new RealEstateGroup{Id=7, FullName="Stanovanje - 1-sobno", Group="Stanovanje", TypeId=5},
+                new RealEstateGroup{Id=8, FullName="Stanovanje - Drugo", Group="Stanovanje", TypeId=0},
+                new RealEstateGroup{Id=9, FullName="Posest - Zazidljiva", Group="Posest", TypeId=6},
+                new RealEstateGroup{Id=10, FullName="Posest - Nezazidljiva", Group="Posest", TypeId=7},
+                new RealEstateGroup{Id=11, FullName="Posest - Drugo", Group="Posest", TypeId=8},
+                new RealEstateGroup{Id=12, FullName="Garaza - Drugo", Group="Garaza", TypeId=0},
             };
 
             foreach (RealEstateGroup e in reGroups)
