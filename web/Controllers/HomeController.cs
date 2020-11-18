@@ -9,6 +9,8 @@ using web.Models;
 using web.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace web.Controllers
 {
@@ -54,9 +56,30 @@ namespace web.Controllers
             
         }
 
-        public IActionResult Privacy()
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize]
+        public async Task<IActionResult> Create([Bind("ListingId")] Favorite favorite)
         {
-            return View();
+            var currentUser = await _usermanager.GetUserAsync(User);
+            if (ModelState.IsValid)
+            {
+                favorite.User = currentUser;
+                _context.Add(favorite);
+                await _context.SaveChangesAsync();
+            }
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        [Authorize]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var favorite = await _context.Favorite.FindAsync(id);
+            _context.Favorite.Remove(favorite);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

@@ -30,12 +30,17 @@ namespace web.Models
         public ApplicationUser Owner { get; set; }
 
         public List<Favorite> Favorites { get; set; }
-        public bool isFavoriteForUser(string id) {
+        public bool isFavoriteForUser(string userid) {
             if (this.Favorites == null)
             {
                 return false;
             }
-            return this.Favorites.Exists(e => e.UserId == id);
+            return this.Favorites.Exists(e => e.UserId == userid);
+        }
+
+        public int getFavoriteId(string userid) {
+            if (this.Favorites == null) return -1;
+            return this.Favorites.Find(e => e.UserId == userid).Id;
         }
     }
 }
