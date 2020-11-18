@@ -1,5 +1,11 @@
 # eHome
 
+### Reset database and migrations
+ - Drop DB ```dotnet ef database drop```
+ - Remove Migrations ```dotnet ef migrations remove```
+ - Add Migration ```dotnet ef migrations add Start```
+ - Apply migrations ```dotnet ef database update```
+
 ## Start developing
 ### 1st Time
  - Clone ```git clone git@github.com:Gnortss/ehome.git```
@@ -8,6 +14,6 @@
  - Pull Changes ```git pull```
  - Create feature branch ```git checkout -b <feature_branch>```
  - Adding and commiting changes ```git add . && git commit -m "my changes"```
- - Push to remote ```git push -u origin <feature-branch>```
+ - Push to remote ```git push -u origin <feature_branch>```
  - Create pull request on github page
  - Merge if no conflicts
