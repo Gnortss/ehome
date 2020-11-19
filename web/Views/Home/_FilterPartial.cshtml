@@ -1,4 +1,4 @@
-<form method="get">
+<form id="filter_form" method="get">
     <h2 style="margin-top: 50px; margin-bottom:50px ">Iskanje Nepremičnin</h2>
     <div class="search-filter">
         <div style="display: flex; width: 100%; justify-content: space-between; padding:10px">
@@ -9,7 +9,7 @@
             </div>
             <div class="filter-row">
                 <label class="mr-sm-2" for="listing">VRSTA PONUDBE</label>
-                <select class="custom-select mr-sm-2" id="listing" name="listing" asp-items="ViewBag.ListingType">
+                <select class="custom-select mr-sm-2" id="listing" name="listing" asp-items="ViewBag.ListingType" onchange="document.getElementById('filter_form').submit();">
                 </select>
             </div>
         </div>
