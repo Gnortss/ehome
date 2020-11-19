@@ -1,80 +1,39 @@
-<form method="GET">
+<form method="get">
     <h2 style="margin-top: 50px; margin-bottom:50px ">Iskanje Nepremičnin</h2>
     <div class="search-filter">
         <div style="display: flex; width: 100%; justify-content: space-between; padding:10px">
             <div class="filter-row">
-                <label class="mr-sm-2" for="vrstaNepremicnine">VRSTA NEPREMIČNINE</label>
-                <select class="custom-select mr-sm-2" id="vrstaNepremicnine" onchange="getData('vrstaNepremicnine')"
-                    name="vrstaNepremicnine">
-                    <option selected>Hisa</option>
-                    <option>Posest</option>
-                    <option>Stanovanje</option>
-                    <option>Garaža</option>
+                <label class="mr-sm-2" for="group">VRSTA NEPREMIČNINE</label>
+                <select class="custom-select mr-sm-2" id="group" name="group" asp-items="ViewBag.Group">
                 </select>
             </div>
             <div class="filter-row">
-                <label class="mr-sm-2" for="vrstaPonudbe">VRSTA PONUDBE</label>
-                <select class="custom-select mr-sm-2" id="vrstaPonudbe" onchange="getData('vrstaPonudbe')"
-                    name="vrstaPonudbe">
-                    <option selected>Prodaja</option>
-                    <option>Oddaja</option>
-
-
+                <label class="mr-sm-2" for="listing">VRSTA PONUDBE</label>
+                <select class="custom-select mr-sm-2" id="listing" name="listing" asp-items="ViewBag.ListingType">
                 </select>
             </div>
         </div>
         <div style="display: flex; width: 100%; justify-content: space-between; padding:10px">
             <div class="filter-row">
-                <label class="mr-sm-2" for="regija">REGIJA</label>
-                <select class="custom-select mr-sm-2" id="regija" onchange="getData('regija')" name="regija">
-                    <option selected>Pomurska regija</option>
-                    <option value="1">Podravska regija</option>
-                    <option value="1">Koroška regija</option>
-                    <option value="1">Savinjska regija</option>
-                    <option value="1">Zasavska regija</option>
-                    <option value="1">Posavska regija</option>
-                    <option value="1"> Jugovzhodna Slovenija</option>
-                    <option value="1"> Osrednjeslovenska regija</option>
-                    <option value="1">Gorenjska regija</option>
-                    <option value="1">Primorsko-notranjska regija</option>
-                    <option value="1"> Goriška regija</option>
-                    <option value="1"> Obalno-kraška regija</option>
-
+                <label class="mr-sm-2" for="region">REGIJA</label>
+                <select class="custom-select mr-sm-2" id="region" name="region" asp-items="ViewBag.Region">
                 </select>
             </div>
             <div class="filter-row">
-                <label class="mr-sm-2" for="velikost">VELIKOST</label>
-                <select class="custom-select mr-sm-2" id="velikost" onchange="getData('velikost')" name="velikost">
-                    <option selected value="0,50">Do 50 &#x33A1</option>
-                    <option value="50,100">50 - 100 &#x33A1</option>
-                    <option value="100,150">100 - 150 &#x33A1</option>
-                    <option value="150,200">150 - 200 &#x33A1</option>
-                    <option value="200,9999999999999">200 in več &#x33A1</option>
+                <label class="mr-sm-2" for="size">VELIKOST (&#x33A1)</label>
+                <select class="custom-select mr-sm-2" id="size" name="size" asp-items="ViewBag.Size">
                 </select>
             </div>
         </div>
         <div style="display: flex; width: 100%; justify-content: space-between; padding:10px">
             <div class="filter-row">
-                <label class="mr-sm-2" for="leto">LETO</label>
-                <select class="custom-select mr-sm-2" id="leto" onchange="getData('leto')" name="leto">
-                    <option selected>Do 1949</option>
-                    <option value="1">1950 - 1959 </option>
-                    <option value="1">1960 - 1969 </option>
-                    <option value="1">1970 - 1979 </option>
-                    <option value="1">1980 - 1989 </option>
-                    <option value="1">1990 - 1999 </option>
-                    <option value="1">2000 - 2009 </option>
-                    <option value="1">2010 - 2018 </option>
-
+                <label class="mr-sm-2" for="year">LETO</label>
+                <select class="custom-select mr-sm-2" id="year" name="year" asp-items="ViewBag.Year">
                 </select>
             </div>
             <div class="filter-row">
-                <label class="mr-sm-2" for="cena">CENA</label>
-                <select class="custom-select mr-sm-2" id="cena" onchange="getData('cena')" name="cena">
-                    <option selected>Do 200.000 &euro;</option>
-                    <option value="1">200.000 - 400.000 &euro;</option>
-                    <option value="1">400.000 - 600.000 &euro;</option>
-
+                <label class="mr-sm-2" for="price">CENA (&euro;)</label>
+                <select class="custom-select mr-sm-2" id="price" name="price" asp-items="ViewBag.Price">
                 </select>
             </div>
 

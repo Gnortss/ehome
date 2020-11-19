@@ -25,6 +25,59 @@ namespace web.Data
                 context.ListingType.Add(e);
             context.SaveChanges();
 
+            var sizes = new SizeOption[]
+            {
+                new SizeOption{Id=1, DisplayName="Do 50", CodeName="0-50"},
+                new SizeOption{Id=2, DisplayName="50 - 100", CodeName="50-100"},
+                new SizeOption{Id=3, DisplayName="100 - 150", CodeName="100-150"},
+                new SizeOption{Id=4, DisplayName="150 - 200", CodeName="150-200"},
+                new SizeOption{Id=5, DisplayName="200 - 250", CodeName="200-250"},
+                new SizeOption{Id=6, DisplayName="250 in več", CodeName="250-999999"}
+            };
+
+            foreach (SizeOption e in sizes)
+                context.Add(e);
+            context.SaveChanges();
+
+            var years = new YearOption[]
+            {
+                new YearOption{Id=1, DisplayName="Do 1949", CodeName="1900-1949"},
+                new YearOption{Id=2, DisplayName="1950 - 1959", CodeName="1950-1959"},
+                new YearOption{Id=3, DisplayName="1960 - 1969", CodeName="1960-1969"},
+                new YearOption{Id=4, DisplayName="1970 - 1979", CodeName="1970-1979"},
+                new YearOption{Id=5, DisplayName="1980 - 1989", CodeName="1980-1989"},
+                new YearOption{Id=6, DisplayName="1990 - 1999", CodeName="1990-1999"},
+                new YearOption{Id=7, DisplayName="2000 - 2009", CodeName="2000-2009"},
+                new YearOption{Id=8, DisplayName="2010 - 2019", CodeName="2010-2019"},
+                new YearOption{Id=9, DisplayName="2020 in več", CodeName="2020-2100"}
+            };
+
+            foreach (YearOption e in years)
+                context.Add(e);
+            context.SaveChanges();
+
+            var prices = new PriceOption[]
+            {
+                new PriceOption{Id=1, DisplayName="Do 50.000", CodeName="0-50000", ListingType=1},
+                new PriceOption{Id=2, DisplayName="50.000 - 100.000", CodeName="50000-100000", ListingType=1},
+                new PriceOption{Id=3, DisplayName="100.000 - 150.000", CodeName="100000-150000", ListingType=1},
+                new PriceOption{Id=4, DisplayName="150.000 - 200.000", CodeName="150000-200000", ListingType=1},
+                new PriceOption{Id=5, DisplayName="200.000 - 400.000", CodeName="200000-400000", ListingType=1},
+                new PriceOption{Id=6, DisplayName="400.000 - 600.000", CodeName="400000-600000", ListingType=1},
+                new PriceOption{Id=7, DisplayName="600.000 in več", CodeName="600000-999999999", ListingType=1},
+                new PriceOption{Id=8, DisplayName="Do 500", CodeName="0-500", ListingType=2},
+                new PriceOption{Id=9, DisplayName="500 - 1.000", CodeName="500-1000", ListingType=2},
+                new PriceOption{Id=10, DisplayName="1.000 - 1.500", CodeName="1000-1500", ListingType=2},
+                new PriceOption{Id=11, DisplayName="1.500 - 2.000", CodeName="1500-2000", ListingType=2},
+                new PriceOption{Id=12, DisplayName="2.000 - 3.000", CodeName="2000-3000", ListingType=2},
+                new PriceOption{Id=13, DisplayName="3.000 - 4.000", CodeName="3000-4000", ListingType=2},
+                new PriceOption{Id=14, DisplayName="4.000 in več", CodeName="4000-999999999", ListingType=2},
+            };
+
+            foreach (PriceOption e in prices)
+                context.Add(e);
+            context.SaveChanges();
+
             var reTypes = new RealEstateType[]
             {
                 new RealEstateType{Id=0, Type="Drugo"},
@@ -55,7 +108,7 @@ namespace web.Data
                 new RealEstateGroup{Id=9, FullName="Posest - Zazidljiva", Group="Posest", TypeId=6},
                 new RealEstateGroup{Id=10, FullName="Posest - Nezazidljiva", Group="Posest", TypeId=7},
                 new RealEstateGroup{Id=11, FullName="Posest - Drugo", Group="Posest", TypeId=8},
-                new RealEstateGroup{Id=12, FullName="Garaza - Drugo", Group="Garaza", TypeId=0},
+                new RealEstateGroup{Id=12, FullName="Garaža - Drugo", Group="Garaža", TypeId=0},
             };
 
             foreach (RealEstateGroup e in reGroups)
