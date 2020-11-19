@@ -55,7 +55,7 @@ namespace web.Data
                 new RealEstateGroup{Id=9, FullName="Posest - Zazidljiva", Group="Posest", TypeId=6},
                 new RealEstateGroup{Id=10, FullName="Posest - Nezazidljiva", Group="Posest", TypeId=7},
                 new RealEstateGroup{Id=11, FullName="Posest - Drugo", Group="Posest", TypeId=8},
-                new RealEstateGroup{Id=12, FullName="Garaza - Drugo", Group="Garaza", TypeId=0},
+                new RealEstateGroup{Id=12, FullName="Garaža - Drugo", Group="Garaža", TypeId=0},
             };
 
             foreach (RealEstateGroup e in reGroups)

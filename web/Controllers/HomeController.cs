@@ -27,20 +27,28 @@ namespace web.Controllers
             _context = context;
             _usermanager = userManager;
         }
-        public async Task<IActionResult> IndexAsync(string vrstaNepremicnine,string vrstaPonudbe, string regija, string velikost,string leto,string cena)
+        public async Task<IActionResult> IndexAsync(string group, int listing, int region, string size, string year, string price)
         {
             var currentUser = await _usermanager.GetUserAsync(User);
             ViewData["isLogged"] = currentUser != null ? currentUser.Id : null;
             ViewData["Favorite"] = currentUser != null ? _context.Favorite.Where(l => l.User == currentUser).ToList() : null;
-            if(vrstaNepremicnine != null) {
-                string[] loceno = velikost.Split(",");
-                int prva = Int32.Parse(loceno[0]);
-                int druga = Int32.Parse(loceno[1]);
+            
+            ViewData["Group"] = new SelectList(_context.RealEstateGroup.Select(e => new {e.Group}).Distinct(), "Group", "Group");
+            ViewData["ListingType"] = new SelectList(_context.ListingType, "Id", "Type");
+            ViewData["Region"] = new SelectList(_context.Region, "Id", "Name");
+            if(group != null) {
+                var (intlSize, hSize) = this.Deconstruct(size);
+                var (lYear, hYear) = this.Deconstruct(year);
+                var (lPrice, hPrice) = this.Deconstruct(price);
+
                 var ehomeContext = _context.Listings
                     .Include(l => l.LType)
                     .Include(l => l.REGroup)
                     .Include(l => l.Region)
-                    // .Where(l => l.RealEstateType == vrstaNepremicnine && l.ListingType == vrstaPonudbe && l.Size >= prva && l.Size <= druga)
+                    .Where(l => l.REGroup.Group == group && l.ListingType == listing && l.RegionId == region
+                        && (lPrice <= l.Price && l.Price <= hPrice)
+                        && (lYear <= l.Year && l.Year <= hYear)
+                        && (lPrice <= l.Price && l.Price <= hPrice))
                     .OrderByDescending(l => l.DateOfEntry);
                 return View(await ehomeContext.ToListAsync());
             }
@@ -86,6 +94,11 @@ namespace web.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        private (int lo, int hi) Deconstruct(string o) {
+            string[] p = o.Split('-');
+            return (Int32.Parse(p[0]), Int32.Parse(p[1]));
         }
     }
 }
