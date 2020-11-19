@@ -16,8 +16,12 @@ namespace web.Data
         public DbSet<RealEstateGroup> RealEstateGroup { get; set; }
         public DbSet<RealEstateType> RealEstateType { get; set; }
         public DbSet<Favorite> Favorite { get; set; }
-
         public DbSet<Region> Region { get; set; }
+
+        public DbSet<SizeOption> SizeOptions { get; set; }
+        public DbSet<YearOption> YearOptions { get; set; }
+        public DbSet<PriceOption> PriceOptions { get; set; }
+
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
@@ -28,6 +32,9 @@ namespace web.Data
             modelBuilder.Entity<Region>().Property(e => e.Id).ValueGeneratedNever();
 
             modelBuilder.Entity<Listing>().ToTable("Listing");
+            modelBuilder.Entity<SizeOption>().ToTable("SizeOption");
+            modelBuilder.Entity<YearOption>().ToTable("YearOption");
+            modelBuilder.Entity<PriceOption>().ToTable("PriceOption");
         }
     }
 }

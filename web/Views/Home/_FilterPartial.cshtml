@@ -21,38 +21,19 @@
             </div>
             <div class="filter-row">
                 <label class="mr-sm-2" for="size">VELIKOST (&#x33A1)</label>
-                <select class="custom-select mr-sm-2" id="size" name="size">
-                    <option selected value="0-50">Do 50</option>year
-                    <option value="50-100">50 - 100</option>
-                    <option value="100-150">100 - 150</option>
-                    <option value="150-200">150 - 200</option>
-                    <option value="200-9999999999999">200 in več</option>
+                <select class="custom-select mr-sm-2" id="size" name="size" asp-items="ViewBag.Size">
                 </select>
             </div>
         </div>
         <div style="display: flex; width: 100%; justify-content: space-between; padding:10px">
             <div class="filter-row">
                 <label class="mr-sm-2" for="year">LETO</label>
-                <select class="custom-select mr-sm-2" id="year" name="year">
-                    <option selected value="1900-1949">Do 1949</option>
-                    <option value="1950-1959">1950 - 1959 </option>
-                    <option value="1960-1969">1960 - 1969 </option>
-                    <option value="1970-1979">1970 - 1979 </option>
-                    <option value="1980-1989">1980 - 1989 </option>
-                    <option value="1990-1999">1990 - 1999 </option>
-                    <option value="2000-2009">2000 - 2009 </option>
-                    <option value="2010-2019">2010 - 2019 </option>
-                    <option value="2020-2100">2020 in več </option>
-
+                <select class="custom-select mr-sm-2" id="year" name="year" asp-items="ViewBag.Year">
                 </select>
             </div>
             <div class="filter-row">
                 <label class="mr-sm-2" for="price">CENA (&euro;)</label>
-                <select class="custom-select mr-sm-2" id="price" name="price">
-                    <option selected value="0-200000">Do 200.000</option>
-                    <option value="200000-400000">200.000 - 400.000</option>
-                    <option value="400000-600000">400.000 - 600.000</option>
-
+                <select class="custom-select mr-sm-2" id="price" name="price" asp-items="ViewBag.Price">
                 </select>
             </div>
 
