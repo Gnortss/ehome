@@ -10,7 +10,7 @@ using web.Data;
 namespace web.Migrations
 {
     [DbContext(typeof(EhomeContext))]
-    [Migration("20201118141624_Start")]
+    [Migration("20201119124740_Start")]
     partial class Start
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -312,6 +312,27 @@ namespace web.Migrations
                     b.ToTable("ListingType");
                 });
 
+            modelBuilder.Entity("web.Models.PriceOption", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("CodeName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DisplayName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ListingType")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ListingType");
+
+                    b.ToTable("PriceOption");
+                });
+
             modelBuilder.Entity("web.Models.RealEstateGroup", b =>
                 {
                     b.Property<int>("Id")
@@ -357,6 +378,38 @@ namespace web.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Region");
+                });
+
+            modelBuilder.Entity("web.Models.SizeOption", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("CodeName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DisplayName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SizeOption");
+                });
+
+            modelBuilder.Entity("web.Models.YearOption", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("CodeName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DisplayName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("YearOption");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -444,6 +497,15 @@ namespace web.Migrations
                     b.HasOne("web.Models.Region", "Region")
                         .WithMany()
                         .HasForeignKey("RegionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("web.Models.PriceOption", b =>
+                {
+                    b.HasOne("web.Models.ListingType", "LType")
+                        .WithMany()
+                        .HasForeignKey("ListingType")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

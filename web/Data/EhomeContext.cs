@@ -30,6 +30,9 @@ namespace web.Data
             modelBuilder.Entity<RealEstateType>().Property(e => e.Id).ValueGeneratedNever();
             modelBuilder.Entity<RealEstateGroup>().Property(e => e.Id).ValueGeneratedNever();
             modelBuilder.Entity<Region>().Property(e => e.Id).ValueGeneratedNever();
+            modelBuilder.Entity<SizeOption>().Property(e => e.Id).ValueGeneratedNever();
+            modelBuilder.Entity<YearOption>().Property(e => e.Id).ValueGeneratedNever();
+            modelBuilder.Entity<PriceOption>().Property(e => e.Id).ValueGeneratedNever();
 
             modelBuilder.Entity<Listing>().ToTable("Listing");
             modelBuilder.Entity<SizeOption>().ToTable("SizeOption");

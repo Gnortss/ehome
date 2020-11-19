@@ -84,6 +84,32 @@ namespace web.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "SizeOption",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false),
+                    DisplayName = table.Column<string>(nullable: true),
+                    CodeName = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SizeOption", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "YearOption",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false),
+                    DisplayName = table.Column<string>(nullable: true),
+                    CodeName = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_YearOption", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -185,6 +211,26 @@ namespace web.Migrations
                         name: "FK_AspNetUserTokens_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PriceOption",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false),
+                    DisplayName = table.Column<string>(nullable: true),
+                    CodeName = table.Column<string>(nullable: true),
+                    ListingType = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PriceOption", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PriceOption_ListingType_ListingType",
+                        column: x => x.ListingType,
+                        principalTable: "ListingType",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -352,6 +398,11 @@ namespace web.Migrations
                 column: "RegionId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_PriceOption_ListingType",
+                table: "PriceOption",
+                column: "ListingType");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_RealEstateGroup_TypeId",
                 table: "RealEstateGroup",
                 column: "TypeId");
@@ -376,6 +427,15 @@ namespace web.Migrations
 
             migrationBuilder.DropTable(
                 name: "Favorite");
+
+            migrationBuilder.DropTable(
+                name: "PriceOption");
+
+            migrationBuilder.DropTable(
+                name: "SizeOption");
+
+            migrationBuilder.DropTable(
+                name: "YearOption");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

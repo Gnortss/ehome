@@ -313,9 +313,7 @@ namespace web.Migrations
             modelBuilder.Entity("web.Models.PriceOption", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
                     b.Property<string>("CodeName")
                         .HasColumnType("nvarchar(max)");
@@ -383,9 +381,7 @@ namespace web.Migrations
             modelBuilder.Entity("web.Models.SizeOption", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
                     b.Property<string>("CodeName")
                         .HasColumnType("nvarchar(max)");
@@ -401,9 +397,7 @@ namespace web.Migrations
             modelBuilder.Entity("web.Models.YearOption", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
                     b.Property<string>("CodeName")
                         .HasColumnType("nvarchar(max)");
