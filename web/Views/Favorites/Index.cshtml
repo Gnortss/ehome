@@ -4,26 +4,35 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Priljubljeni</h1>
+@if(Model.Count() != 0) {
+<h1>Priljubljeni Oglasi</h1>
 
- @foreach (var item in Model)
-        {
-            <div class="card" style="width: 18rem;">
-                <img class="card-img-top" src="@Html.DisplayFor(modelItem => item.Listing.ImageLink)">
-                <div class="card-body">
-                    <h5 class="card-title">@Html.DisplayFor(modelItem => item.Listing.REGroup.Group) @Html.DisplayFor(modelItem =>
-                                                                                              item.Listing.LType.Type)</h5>
-                    <p class="card-text"><span>Velikost:</span> @Html.DisplayFor(modelItem =>
-                                                                   item.Listing.Size) &#x33A1</p>
-                    <p class="card-text"><span>Naslov:</span> @Html.DisplayFor(modelItem => item.Listing.Address)</p>
-                    <p class="card-text"><span>Cena:</span> @Html.DisplayFor(modelItem => item.Listing.Price) €</p>
+<div class="recentlyAddedMain">
+    @foreach (var item in Model)
+            {
+                <div class="card" style="width: 18rem;">
+                    <img class="card-img-top" src="@Html.DisplayFor(modelItem => item.Listing.ImageLink)">
+                    <div class="card-body">
+                        <h5 class="card-title">@Html.DisplayFor(modelItem => item.Listing.REGroup.Group) @Html.DisplayFor(modelItem =>
+                                                                                                item.Listing.LType.Type)</h5>
+                        <p class="card-text"><span>Velikost:</span> @Html.DisplayFor(modelItem =>
+                                                                    item.Listing.Size) &#x33A1</p>
+                        <p class="card-text"><span>Naslov:</span> @Html.DisplayFor(modelItem => item.Listing.Address)</p>
+                        <p class="card-text"><span>Cena:</span> @Html.DisplayFor(modelItem => item.Listing.Price) €</p>
 
-                    <a class="btn btn-primary" asp-route-id="@item.Listing.Id" asp-controller="Listings" asp-action="Details">Odpri
-                        oglas</a>
-                    <form asp-action="Delete" asp-controller="Favorites">
-                        <input type="hidden" name="Id" value="@item.Id" />
-                        <input type="submit" value="Delete" class="btn btn-danger" />
-                    </form>
+                        <div style="display: flex; justify-content: space-between;">
+                            <a class="btn btn-primary" asp-route-id="@item.Listing.Id" asp-controller="Listings" asp-action="Details">Odpri
+                                oglas</a>
+                            <form asp-action="Delete" asp-controller="Favorites">
+                                <input type="hidden" name="Id" value="@item.Id" />
+                                <input type="submit" value="Zbriši" class="btn btn-danger" />
+                            </form>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        }
+            }
+    </div>
+}
+else {
+    <h1>Ni Priljubljenih Oglasov</h1>
+}

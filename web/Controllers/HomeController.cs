@@ -48,6 +48,7 @@ namespace web.Controllers
                         && (lPrice <= l.Price && l.Price <= hPrice))
                     .OrderByDescending(l => l.DateOfEntry);
 
+                ViewData["ResultName"] = "Najdene Nepremičnine";
                 ViewData["Group"] = new SelectList(_context.RealEstateGroup.Select(e => new {e.Group}).Distinct(), "Group", "Group", group);
                 ViewData["ListingType"] = new SelectList(_context.ListingType, "Id", "Type", listing);
                 ViewData["Region"] = new SelectList(_context.Region, "Id", "Name", region);
@@ -64,12 +65,14 @@ namespace web.Controllers
                     .Include(l => l.Region)
                     .OrderByDescending(l => l.DateOfEntry);
 
-                ViewData["Group"] = new SelectList(_context.RealEstateGroup.Select(e => new {e.Group}).Distinct(), "Group", "Group");
-                ViewData["ListingType"] = new SelectList(_context.ListingType, "Id", "Type");
-                ViewData["Region"] = new SelectList(_context.Region, "Id", "Name");
+                ViewData["ResultName"] = "Nazadnje Dodane";
+
+                ViewData["Group"] = new SelectList(_context.RealEstateGroup.Select(e => new {e.Group}).Distinct(), "Group", "Group","Stanovanje");
+                ViewData["ListingType"] = new SelectList(_context.ListingType, "Id", "Type",2);
+                ViewData["Region"] = new SelectList(_context.Region, "Id", "Name",8);
                 ViewData["Size"] = new SelectList(_context.SizeOptions, "Id", "DisplayName");
-                ViewData["Year"] = new SelectList(_context.YearOptions, "Id", "DisplayName");
-                ViewData["Price"] = new SelectList(_context.PriceOptions.Where(e => e.ListingType == 2), "Id", "DisplayName");
+                ViewData["Year"] = new SelectList(_context.YearOptions, "Id", "DisplayName",9);
+                ViewData["Price"] = new SelectList(_context.PriceOptions.Where(e => e.ListingType == 2), "Id", "DisplayName",9);
 
                 return View(await ehomeContext.ToListAsync());
             }

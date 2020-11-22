@@ -8,8 +8,11 @@
     <partial name="_FilterPartial" />
 
 
-    <h2 style="margin-top: 100px;">Nazadnje Dodane</h2>
+      @if(Model.Count() != 0) {
+    <h2 style="margin-top: 100px;">@ViewBag.ResultName</h2>
+
     <div class="recentlyAddedMain">
+      
         @foreach (var item in Model)
         {
             <div class="card" style="width: 18rem;">
@@ -22,72 +25,53 @@
                     <p class="card-text"><span>Naslov:</span> @Html.DisplayFor(modelItem => item.Address)</p>
                     <p class="card-text"><span>Cena:</span> @Html.DisplayFor(modelItem => item.Price) €</p>
 
+                <div style="display: flex; justify-content: space-between; align-items: center;">
                     <a class="btn btn-primary" asp-route-id="@item.Id" asp-controller="Listings" asp-action="Details">Odpri
                         oglas</a>
 
                     @if (@ViewBag.isLogged != null)
                     {
-                        @if (item.isFavoriteForUser(@ViewBag.isLogged)) {
-                            <form id="form_unfavorite_@item.Id" asp-action="Delete">
-                                <input type="hidden" name="id" value="@item.getFavoriteId(@ViewBag.isLogged)" />
-                                <a href="javascript:{}", onclick="document.getElementById('form_unfavorite_@item.Id').submit();">
-                                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-heart-fill" fill="red"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd"
-                                            d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" />
-                                    </svg>
-                                </a>
-                            </form>
-                        }
-                        else {
-                            <form id="form_favorite_@item.Id" asp-action="Create">
-                                <input type="hidden" name="ListingId" value="@item.Id" />
-                                <a href="javascript:{}", onclick="document.getElementById('form_favorite_@item.Id').submit();">
-                                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-heart" fill="black"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd"
-                                        d="M8 2.748l-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
-                                </svg>
-                                </a>
-                            </form>
-                        }
+                       
+                            @if (item.isFavoriteForUser(@ViewBag.isLogged))
+                            {
+                                <form id="form_unfavorite_@item.Id" asp-action="Delete">
+                                    <input type="hidden" name="id" value="@item.getFavoriteId(@ViewBag.isLogged)" />
+                                    <a href="javascript:{}" ,
+                                        onclick="document.getElementById('form_unfavorite_@item.Id').submit();"
+                                        onsubmit="return false">
+                                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-heart-fill" fill="red"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd"
+                                                d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" />
+                                        </svg>
+                                    </a>
+                                </form>
+                            }
+                            else {
+                                <form id="form_favorite_@item.Id" asp-action="Create">
+                                    <input type="hidden" name="ListingId" value="@item.Id" />
+                                    <a href="javascript:{}" , onclick="document.getElementById('form_favorite_@item.Id').submit();"
+                                        onsubmit="return false">
+                                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-heart" fill="black"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd"
+                                                d="M8 2.748l-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
+                                        </svg>
+                                    </a>
+                                </form>
+                            }
+                            
                     }
+                </div>
 
                 </div>
             </div>
         }
-        @* <div class="card" style="width: 18rem;">
-            <img class="card-img-top" src="~/contents/house.png">
-            <div class="card-body">
-            <h5 class="card-title">ola</h5>
-            <p class="card-text"><span>Velikost:</span> 100 &#x33A1</p>
-            <p class="card-text"><span>Naslov:</span> sdsadads</p>
-            <p class="card-text"><span>Cena:</span> 500 €</p>
-
-            <a href="#" class="btn btn-primary">Odpri oglas</a>
-            </div>
-            </div>
-            <div class="card" style="width: 18rem;">
-            <img class="card-img-top" src="~/contents/house.png">
-            <div class="card-body">
-            <h5 class="card-title">ola</h5>
-            <p class="card-text"><span>Velikost:</span> 100 &#x33A1</p>
-            <p class="card-text"><span>Naslov:</span> sdsadads</p>
-            <p class="card-text"><span>Cena:</span> 500 €</p>
-
-            <a href="#" class="btn btn-primary">Odpri oglas</a>
-            </div>
-            </div>
-            <div class="card" style="width: 18rem;">
-            <img class="card-img-top" src="~/contents/house.png">
-            <div class="card-body">
-            <h5 class="card-title">ola</h5>
-            <p class="card-text"><span>Velikost:</span> 100 &#x33A1</p>
-            <p class="card-text"><span>Naslov:</span> sdsadads</p>
-            <p class="card-text"><span>Cena:</span> 500 €</p>
-
-            <a href="#" class="btn btn-primary">Odpri oglas</a>
-            </div>
-            </div> *@
+    
     </div>
+      }
+      else {
+        <h2 style="margin-top: 100px;">Ni Najdenih Nepremičnin :(</h2>
+
+      }
 </div>

@@ -8,24 +8,26 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using web.Data;
 using web.Models;
-
+using Microsoft.AspNetCore.Authorization;
 namespace web.Controllers
 {
+    [Authorize]
     public class FavoritesController : Controller
     {
         private readonly EhomeContext _context;
         private readonly UserManager<ApplicationUser> _usermanager;
-
         public FavoritesController(EhomeContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
             _usermanager = userManager;
         }
+        
 
         // GET: Favorites
         public async Task<IActionResult> Index()
         {
-            var ehomeContext = _context.Favorite.Include(f => f.Listing).Include(f => f.User);
+            var currentUser = await _usermanager.GetUserAsync(User);
+            var ehomeContext = _context.Favorite.Include(f => f.Listing).Include(f => f.User).Include(f => f.Listing.REGroup).Include(f => f.Listing.LType).Where(f => f.User == currentUser);
             return View(await ehomeContext.ToListAsync());
         }
 
