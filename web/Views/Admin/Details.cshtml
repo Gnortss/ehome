@@ -1,0 +1,98 @@
+@model web.ViewModels.ApplicationUserVM
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>ApplicationUser</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Id)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Id)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ImageLink)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ImageLink)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.UserName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.UserName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PhoneNumber)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PhoneNumber)
+        </dd>
+        <dt class = "col-sm-2">
+            Listings
+        </dt>
+        <dd class = "col-sm-10">
+            <table class="table">
+                <tr>
+                    <th>
+                        Date Of Entry
+                    </th>
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        Listing Type
+                    </th>
+                    <th>
+                        Region
+                    </th>
+                    <th>
+                        Price
+                    </th>
+                    <th></th>
+                </tr>
+                @foreach (var item in Model.Listings)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DateOfEntry)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.REGroup.Group) @Html.DisplayFor(modelItem => item.REGroup.REType.Type)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.LType.Type)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Region.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Price)
+                        </td>    
+                        <td>
+                            <a asp-controller="Listings" asp-action="Edit" asp-route-id="@item.Id" asp-route-userid="@Model.Id">Edit</a> |
+                            <a asp-controller="Listings" asp-action="Details" asp-route-id="@item.Id" asp-route-userid="@Model.Id">Details</a> |
+                            <a asp-controller="Listings" asp-action="Delete" asp-route-id="@item.Id" asp-route-userid="@Model.Id">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </table>
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
