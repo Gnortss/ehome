@@ -5,7 +5,6 @@
 }
 
 <h1>Edit</h1>
-}
 
 <h4>Listing</h4>
 <hr />
@@ -16,7 +15,7 @@
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
                 <label asp-for="DateOfEntry" class="control-label"></label>
-                <input asp-for="DateOfEntry" class="form-control" />
+                <input asp-for="DateOfEntry" class="form-control" disabled/>
                 <span asp-validation-for="DateOfEntry" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -72,6 +71,12 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    @if(@ViewBag.UserId != null)
+    {
+        <a asp-controller="Admin" asp-action="Details" asp-route-id="@ViewBag.UserId">Back</a>
+    }else
+    {
+        <a asp-action="Index">Back</a>
+    }
 </div>
 

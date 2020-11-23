@@ -489,7 +489,7 @@ namespace web.Migrations
                         .IsRequired();
 
                     b.HasOne("web.Models.ApplicationUser", "Owner")
-                        .WithMany()
+                        .WithMany("Listings")
                         .HasForeignKey("OwnerId");
 
                     b.HasOne("web.Models.Region", "Region")

@@ -10,7 +10,7 @@ using web.Data;
 namespace web.Migrations
 {
     [DbContext(typeof(EhomeContext))]
-    [Migration("20201122114308_Start")]
+    [Migration("20201123105849_Start")]
     partial class Start
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -491,7 +491,7 @@ namespace web.Migrations
                         .IsRequired();
 
                     b.HasOne("web.Models.ApplicationUser", "Owner")
-                        .WithMany()
+                        .WithMany("Listings")
                         .HasForeignKey("OwnerId");
 
                     b.HasOne("web.Models.Region", "Region")

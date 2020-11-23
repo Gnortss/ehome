@@ -39,8 +39,11 @@ namespace web.Controllers
         }
 
         // GET: Listings/Details/5
-        public async Task<IActionResult> Details(int? id)
+        [Route("Listings/Details/{id?}/{userid?}")]
+        public async Task<IActionResult> Details(int? id, string userid)
         {
+            ViewData["UserId"] = userid;
+
             if (id == null)
             {
                 return NotFound();
@@ -93,14 +96,14 @@ namespace web.Controllers
             return View(listing);
         }
 
-        // GET: Listings/Edit/5
+        // GET: Listings/Edit/5/{userid?}
         // [Authorize]
-        public async Task<IActionResult> Edit(int? id)
+        [Route("Listings/Edit/{id?}/{userid?}")]
+        public async Task<IActionResult> Edit(int? id, string userid)
         {
-
             var currentUser = await _usermanager.GetUserAsync(User);
             ViewData["isLogged"] = currentUser != null;
-
+            ViewData["UserId"] = userid;
             if (id == null)
             {
                 return NotFound();
@@ -122,9 +125,10 @@ namespace web.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Route("Listings/Edit/{id?}/{userid?}")]
         [ValidateAntiForgeryToken]
         [Authorize]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,DateOfEntry,RegionId,Address,Size,Year,ImageLink,Description,Price,GroupId,ListingType")] Listing listing)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,DateOfEntry,RegionId,Address,Size,Year,ImageLink,Description,Price,GroupId,ListingType")] Listing listing, string userid)
         {
             if (id != listing.Id)
             {
@@ -149,6 +153,9 @@ namespace web.Controllers
                         throw;
                     }
                 }
+                if(userid != null)
+                    return RedirectToAction("Details", "Admin", new {id=userid});
+
                 return RedirectToAction(nameof(Index));
             }
             ViewData["ListingType"] = new SelectList(_context.ListingType, "Id", "Id", listing.ListingType);
@@ -158,8 +165,9 @@ namespace web.Controllers
         }
 
         // GET: Listings/Delete/5
+        [Route("Listings/Delete/{id?}/{userid?}")]
         [Authorize]
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int? id, string userid)
         {
             if (id == null)
             {
@@ -181,13 +189,17 @@ namespace web.Controllers
 
         // POST: Listings/Delete/5
         [HttpPost, ActionName("Delete")]
+        [Route("Listings/Delete/{id}/{userid?}")]
         [ValidateAntiForgeryToken]
         [Authorize]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int id, string userid)
         {
             var listing = await _context.Listings.FindAsync(id);
             _context.Listings.Remove(listing);
             await _context.SaveChangesAsync();
+            
+            if(userid != null)
+                return RedirectToAction("Details", "Admin", new {id=userid});
             return RedirectToAction(nameof(Index));
         }
 
