@@ -8,7 +8,7 @@ namespace web.ViewModels
         public string Id { get; set; }
         [Display(Name="Uporabniško ime")]
         public string UserName { get; set; }
-        [Display(Name="Epošta")]
+        [Display(Name="E pošta")]
         public string Email { get; set; }
         [Display(Name="Telefon")]
         public string PhoneNumber { get; set; }
