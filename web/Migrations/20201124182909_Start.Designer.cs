@@ -10,7 +10,7 @@ using web.Data;
 namespace web.Migrations
 {
     [DbContext(typeof(EhomeContext))]
-    [Migration("20201124135527_Start")]
+    [Migration("20201124182909_Start")]
     partial class Start
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

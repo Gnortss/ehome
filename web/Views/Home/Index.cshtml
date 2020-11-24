@@ -23,7 +23,7 @@
                     <p class="card-text"><span>Velikost:</span> @Html.DisplayFor(modelItem =>
                                                                    item.Size) &#x33A1</p>
                     <p class="card-text"><span>Naslov:</span> @Html.DisplayFor(modelItem => item.Address)</p>
-                    <p class="card-text"><span>Cena:</span> @Html.DisplayFor(modelItem => item.Price) €</p>
+                    <p class="card-text"><span>Cena:</span> @Html.DisplayFor(modelItem => item.Price)</p>
 
                 <div style="display: flex; justify-content: space-between; align-items: center;">
                     <a class="btn btn-primary" asp-route-id="@item.Id" asp-controller="Listings" asp-action="Details">Odpri
