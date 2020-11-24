@@ -32,6 +32,7 @@ namespace web.Areas.Identity.Pages.Account.Manage
 
         public string Username { get; set; }
 
+        [Display(Name="E-pošta")]
         public string Email { get; set; }
 
         public bool IsEmailConfirmed { get; set; }
@@ -46,7 +47,7 @@ namespace web.Areas.Identity.Pages.Account.Manage
         {
             [Required]
             [EmailAddress]
-            [Display(Name = "New email")]
+            [Display(Name = "Nova e-pošta")]
             public string NewEmail { get; set; }
         }
 
@@ -60,7 +61,7 @@ namespace web.Areas.Identity.Pages.Account.Manage
                 NewEmail = email,
             };
 
-            IsEmailConfirmed = await _userManager.IsEmailConfirmedAsync(user);
+            IsEmailConfirmed = true;
         }
 
         public async Task<IActionResult> OnGetAsync()

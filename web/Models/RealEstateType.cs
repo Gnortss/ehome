@@ -7,6 +7,7 @@ namespace web.Models
     {
         [Key]
         public int Id { get; set; }
+        [Display(Name="Tip")]
         public string Type { get; set; }
     }
 }

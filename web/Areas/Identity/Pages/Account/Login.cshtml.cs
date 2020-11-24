@@ -44,10 +44,12 @@ namespace web.Areas.Identity.Pages.Account
         public class InputModel
         {
             [Required]
+            [Display(Name="Uporabniško ime")]
             public string Username { get; set; }
 
             [Required]
             [DataType(DataType.Password)]
+            [Display(Name="Geslo")]
             public string Password { get; set; }
 
             [Display(Name = "Remember me?")]

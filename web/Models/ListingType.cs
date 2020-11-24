@@ -6,6 +6,7 @@ namespace web.Models
     {
         [Key]
         public int Id { get; set; }
+        [Display(Name="Tip ponudbe")]
         public string Type { get; set; }
     }
 }
