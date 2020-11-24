@@ -7,7 +7,9 @@ namespace web.Models
     {
         [Key]
         public int Id { get; set; }
+        [Display(Name="Vrsta - Tip")]
         public string FullName { get; set; }
+        [Display(Name="Vrsta")]
         public string Group { get; set; }
         public int TypeId { get; set; }
         [ForeignKey("TypeId")]

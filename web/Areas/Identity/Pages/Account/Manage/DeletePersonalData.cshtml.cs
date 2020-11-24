@@ -32,6 +32,7 @@ namespace web.Areas.Identity.Pages.Account.Manage
         {
             [Required]
             [DataType(DataType.Password)]
+            [Display(Name="Geslo")]
             public string Password { get; set; }
         }
 

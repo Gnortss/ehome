@@ -23,6 +23,7 @@ namespace web.Areas.Identity.Pages.Account.Manage
             _signInManager = signInManager;
         }
 
+        [Display(Name="Uporabniško ime")]
         public string Username { get; set; }
 
         [TempData]
@@ -34,7 +35,7 @@ namespace web.Areas.Identity.Pages.Account.Manage
         public class InputModel
         {
             [Phone]
-            [Display(Name = "Phone number")]
+            [Display(Name = "Telefon")]
             public string PhoneNumber { get; set; }
         }
 
