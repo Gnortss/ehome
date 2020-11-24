@@ -4,9 +4,9 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
+<h1>Uredi</h1>
 
-<h4>Listing</h4>
+<h4>Oglas</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -73,10 +73,10 @@
 <div>
     @if(@ViewBag.UserId != null)
     {
-        <a asp-controller="Admin" asp-action="Details" asp-route-id="@ViewBag.UserId">Back</a>
+        <a asp-controller="Admin" asp-action="Details" asp-route-id="@ViewBag.UserId">Nazaj</a>
     }else
     {
-        <a asp-action="Index">Back</a>
+        <a asp-action="Index">Nazaj</a>
     }
 </div>
 

@@ -4,10 +4,10 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<h1>Podrobnosti</h1>
 
 <div>
-    <h4>ApplicationUser</h4>
+    <h4>Uporabnik</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
@@ -41,25 +41,25 @@
             @Html.DisplayFor(model => model.PhoneNumber)
         </dd>
         <dt class = "col-sm-2">
-            Listings
+            Oglasi
         </dt>
         <dd class = "col-sm-10">
             <table class="table">
                 <tr>
                     <th>
-                        Date Of Entry
+                        Datum vnosa
                     </th>
                     <th>
-                        Name
+                        Vrsta - tip
                     </th>
                     <th>
-                        Listing Type
+                        Tip ponudbe
                     </th>
                     <th>
-                        Region
+                        Regija
                     </th>
                     <th>
-                        Price
+                        Cena
                     </th>
                     <th></th>
                 </tr>
@@ -82,9 +82,9 @@
                             @Html.DisplayFor(modelItem => item.Price)
                         </td>    
                         <td>
-                            <a asp-controller="Listings" asp-action="Edit" asp-route-id="@item.Id" asp-route-userid="@Model.Id">Edit</a> |
-                            <a asp-controller="Listings" asp-action="Details" asp-route-id="@item.Id" asp-route-userid="@Model.Id">Details</a> |
-                            <a asp-controller="Listings" asp-action="Delete" asp-route-id="@item.Id" asp-route-userid="@Model.Id">Delete</a>
+                            <a asp-controller="Listings" asp-action="Edit" asp-route-id="@item.Id" asp-route-userid="@Model.Id">Uredi</a> |
+                            <a asp-controller="Listings" asp-action="Details" asp-route-id="@item.Id" asp-route-userid="@Model.Id">Podrobnosti</a> |
+                            <a asp-controller="Listings" asp-action="Delete" asp-route-id="@item.Id" asp-route-userid="@Model.Id">Izbriši</a>
                         </td>
                     </tr>
                 }
@@ -93,6 +93,6 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Uredi</a> |
+    <a asp-action="Index">Nazaj</a>
 </div>

@@ -4,10 +4,10 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<h1>Podrobnosti</h1>
 
 <div>
-    <h4>Listing</h4>
+    <h4>Oglas</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
@@ -82,13 +82,13 @@
     
     @if(@ViewBag.UserId != null)
     {
-        <a asp-action="Edit" asp-route-id="@Model.Id" asp-route-userid="@ViewBag.UserId">Edit</a>
+        <a asp-action="Edit" asp-route-id="@Model.Id" asp-route-userid="@ViewBag.UserId">Uredi</a>
         <span> | </span>
-        <a asp-controller="Admin" asp-action="Details" asp-route-id="@ViewBag.UserId">Back</a>
+        <a asp-controller="Admin" asp-action="Details" asp-route-id="@ViewBag.UserId">Nazaj</a>
     }else
     {
-        <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+        <a asp-action="Edit" asp-route-id="@Model.Id">Uredi</a>
         <span> | </span>
-        <a asp-action="Index">Back</a>
+        <a asp-action="Index">Nazaj</a>
     }
 </div>
