@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using web.Models;
+using web.Extensions;
 
 namespace web.Areas.Identity.Pages.Account.Manage
 {
@@ -37,18 +38,24 @@ namespace web.Areas.Identity.Pages.Account.Manage
             [Phone]
             [Display(Name = "Telefon")]
             public string PhoneNumber { get; set; }
+
+            [Display(Name="Slika")]
+            [DataType(DataType.ImageUrl)]
+            public string ImageLink { get; set; }
         }
 
         private async Task LoadAsync(ApplicationUser user)
         {
             var userName = await _userManager.GetUserNameAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
+            var imageLink = _userManager.GetImageLink(userName);
 
             Username = userName;
 
             Input = new InputModel
             {
-                PhoneNumber = phoneNumber
+                PhoneNumber = phoneNumber,
+                ImageLink = imageLink
             };
         }
 
@@ -89,8 +96,19 @@ namespace web.Areas.Identity.Pages.Account.Manage
                 }
             }
 
+            var imageLink = _userManager.GetImageLink(user.UserName);
+            if (Input.ImageLink != imageLink)
+            {
+                var setImageLink = await _userManager.SetImageLinkAsync(user, Input.ImageLink);
+                if (!setImageLink.Succeeded)
+                {
+                    StatusMessage = "Unexpected error when trying to set phone number.";
+                    return RedirectToPage();
+                }
+            }
+
             await _signInManager.RefreshSignInAsync(user);
-            StatusMessage = "Your profile has been updated";
+            StatusMessage = "Vaš profil je bil posodobljen.";
             return RedirectToPage();
         }
     }

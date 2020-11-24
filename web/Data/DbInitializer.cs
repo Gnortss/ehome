@@ -116,8 +116,8 @@ namespace web.Data
             context.SaveChanges();
 
             var roles = new IdentityRole[] {
-                new IdentityRole{Id="1", Name="Administrator"},
-                new IdentityRole{Id="2", Name="User"}
+                new IdentityRole{Id="1", Name="Administrator", NormalizedName="ADMINISTRATOR"},
+                new IdentityRole{Id="2", Name="User", NormalizedName="USER"}
             };
 
             foreach (IdentityRole r in roles)
