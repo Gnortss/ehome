@@ -1,6 +1,7 @@
 using web.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using System.Linq;
 
 namespace web.Data
 {
@@ -38,6 +39,18 @@ namespace web.Data
             modelBuilder.Entity<SizeOption>().ToTable("SizeOption");
             modelBuilder.Entity<YearOption>().ToTable("YearOption");
             modelBuilder.Entity<PriceOption>().ToTable("PriceOption");
+        }
+
+        public void DetachLocal(Listing t, int entryId)
+        {
+            var local = this.Set<Listing>()
+                .Local
+                .FirstOrDefault(entry => entry.Id == entryId);
+            if (!(local == null))
+            {
+                this.Entry(local).State = EntityState.Detached;
+            }
+            this.Entry(t).State = EntityState.Modified;
         }
     }
 }

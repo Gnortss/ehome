@@ -10,20 +10,30 @@ namespace web.Models
         [Key]
         public int Id { get; set; }
         public DateTime DateOfEntry { get; set; }
+        [Required]
         public int RegionId { get; set; }
         [ForeignKey("RegionId")]
         public Region Region { get; set; }
+        [Required]
         public string Address { get; set; }
+        [Required]
         public int Size { get; set; }
+        [Required]
+        [Range(1500, 2100)]
         public int Year { get; set; }
+        [DataType(DataType.ImageUrl)]
         public string ImageLink { get; set; }
+        [Required]
+        [DataType(DataType.MultilineText)]
         public string Description { get; set; }
+        [Required]
+        [DataType(DataType.Currency)]
         public float Price { get; set; }
-
+        [Required]
         public int GroupId { get; set; }
         [ForeignKey("GroupId")]
         public RealEstateGroup REGroup { get; set; }
-
+        [Required]
         public int ListingType { get; set; }
         [ForeignKey("ListingType")]
         public ListingType LType { get; set;}

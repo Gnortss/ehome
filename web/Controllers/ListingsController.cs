@@ -84,6 +84,8 @@ namespace web.Controllers
             var currentUser = await _usermanager.GetUserAsync(User);
             if (ModelState.IsValid)
             {
+                if(listing.ImageLink == "" || listing.ImageLink == null)
+                    listing.ImageLink = this.getRandomImage();
                 listing.DateOfEntry = DateTime.Now;
                 listing.Owner = currentUser;
                 _context.Add(listing);
@@ -134,11 +136,19 @@ namespace web.Controllers
             {
                 return NotFound();
             }
+            var l = await _context.Listings.FindAsync(id);
+            var group = await _context.RealEstateGroup.FindAsync(l.GroupId);
+            ViewData["ListingType"] = new SelectList(_context.ListingType, "Id", "Type", l.ListingType);
+            ViewData["FullGroup"] = new SelectList(_context.RealEstateGroup.Where(e => e.Group == group.Group), "Id", "FullName", group.TypeId);
+            ViewData["Region"] = new SelectList(_context.Region, "Id", "Name", l.RegionId);
 
             if (ModelState.IsValid)
             {
                 try
                 {
+                    if(listing.ImageLink == "" || listing.ImageLink == null)
+                        listing.ImageLink = this.getRandomImage();
+                    _context.DetachLocal(listing, id);
                     _context.Update(listing);
                     await _context.SaveChangesAsync();
                 }
@@ -158,9 +168,6 @@ namespace web.Controllers
 
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ListingType"] = new SelectList(_context.ListingType, "Id", "Id", listing.ListingType);
-            ViewData["GroupId"] = new SelectList(_context.RealEstateGroup, "Id", "Id", listing.GroupId);
-            ViewData["RegionId"] = new SelectList(_context.Region, "Id", "Id", listing.RegionId);
             return View(listing);
         }
 
@@ -206,6 +213,20 @@ namespace web.Controllers
         private bool ListingExists(int id)
         {
             return _context.Listings.Any(e => e.Id == id);
+        }
+
+        private string getRandomImage(){
+            var rand = new Random();
+            var i = rand.Next(1, 6);
+            switch(i)
+            {
+                case 1: return "https://miro.medium.com/max/10816/1*eO3CIaFBe7LMRePApDwSYA.jpeg";
+                case 2: return "https://cache.100kvadratov.si/image/project/58/large_ljn/1/accamera1__5d2f222a8d257.jpg";
+                case 3: return "https://img.nepremicnine.link/slonep_oglasi2/7520688.jpg";
+                case 4: return "https://www.kras-nepremicnine.si/site/assets/files/1393/image1.jpeg";
+                case 5: return "https://cache.100kvadratov.si/image/item/83/site/list_portal/4/img-4bd56aaebaf4bcfca80a2b79b368f5dc-v__5ebbde75109ae.jpg";
+            }
+            return "https://cache.100kvadratov.si/image/project/58/large_ljn/2/accamera5__5d2f223190d63.jpg";
         }
     }
 }
