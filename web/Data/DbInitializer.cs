@@ -125,12 +125,25 @@ namespace web.Data
                 context.Roles.Add(r);
             }
 
-            var user = new ApplicationUser
+            var user1 = new ApplicationUser
             {
-                Email = "test@example.com",
+                Email = "janez@example.com",
                 NormalizedEmail = "XXXX@EXAMPLE.COM",
-                UserName = "test@example.com",
-                NormalizedUserName = "test@example.com",
+                UserName = "janeznovak",
+                NormalizedUserName = "janeznovak".Normalize(),
+                PhoneNumber = "+111111111111",
+                ImageLink = "https://www.kindpng.com/picc/m/78-785827_user-profile-avatar-login-account-male-user-icon.png",
+                EmailConfirmed = true,
+                PhoneNumberConfirmed = true,
+                SecurityStamp = Guid.NewGuid().ToString("D")
+            };
+
+            var user2 = new ApplicationUser
+            {
+                Email = "marija@example.com",
+                NormalizedEmail = "XXXX@EXAMPLE.COM",
+                UserName = "marijanovak",
+                NormalizedUserName = "marijanovak".Normalize(),
                 PhoneNumber = "+111111111111",
                 ImageLink = "https://www.kindpng.com/picc/m/78-785827_user-profile-avatar-login-account-male-user-icon.png",
                 EmailConfirmed = true,
@@ -142,8 +155,8 @@ namespace web.Data
             {
                 Email = "admin@example.com",
                 NormalizedEmail = "XXXX@EXAMPLE.COM",
-                UserName = "admin@example.com",
-                NormalizedUserName = "admin@example.com",
+                UserName = "admin",
+                NormalizedUserName = "admin".Normalize(),
                 PhoneNumber = "+111111111111",
                 ImageLink = "https://www.kindpng.com/picc/m/78-785827_user-profile-avatar-login-account-male-user-icon.png",
                 EmailConfirmed = true,
@@ -151,18 +164,26 @@ namespace web.Data
                 SecurityStamp = Guid.NewGuid().ToString("D")
             };
 
-            if (!context.Users.Any(u => u.UserName == user.UserName))
+            if (!context.Users.Any(u => u.UserName == user1.UserName))
             {
                 var password = new PasswordHasher<ApplicationUser>();
-                var hashed = password.HashPassword(user, "Testni123!");
-                user.PasswordHash = hashed;
-                context.Users.Add(user);
+                var hashed = password.HashPassword(user1, "Testni123!");
+                user1.PasswordHash = hashed;
+                context.Users.Add(user1);
+            }
+
+            if (!context.Users.Any(u => u.UserName == user2.UserName))
+            {
+                var password = new PasswordHasher<ApplicationUser>();
+                var hashed = password.HashPassword(user2, "Testni123!");
+                user2.PasswordHash = hashed;
+                context.Users.Add(user2);
             }
 
             if (!context.Users.Any(u => u.UserName == adminUser.UserName))
             {
                 var password = new PasswordHasher<ApplicationUser>();
-                var hashed = password.HashPassword(user, "Testni123!");
+                var hashed = password.HashPassword(adminUser, "Testni123!");
                 adminUser.PasswordHash = hashed;
                 context.Users.Add(adminUser);
             }
@@ -171,7 +192,8 @@ namespace web.Data
             var userRoles = new IdentityUserRole<string>[]
             {
                 new IdentityUserRole<string>{RoleId = roles[0].Id, UserId=adminUser.Id},
-                new IdentityUserRole<string>{RoleId = roles[1].Id, UserId=user.Id}
+                new IdentityUserRole<string>{RoleId = roles[1].Id, UserId=user1.Id},
+                new IdentityUserRole<string>{RoleId = roles[1].Id, UserId=user2.Id}
             };
 
             foreach (IdentityUserRole<string> r in userRoles)
@@ -200,9 +222,23 @@ namespace web.Data
 
             var listings = new Listing[]
             {
-                new Listing{DateOfEntry=DateTime.Now, RegionId=8, Address="Primorska ulica 10, 1000 Ljubljana", Size=102, Year=2000, ImageLink="https://i.imgur.com/hWfismm.gif", Description="This is description.", Price=100000, ListingType=1, GroupId=2, Owner=user},
-                new Listing{DateOfEntry=DateTime.Now, RegionId=8, Address="Slovenska cesta 5, 1000 Ljubljana", Size=45, Year=2020, ImageLink="https://i.imgur.com/hWfismm.gif", Description="This is description.", Price=750, ListingType=2, GroupId=7, Owner=user},
-                new Listing{DateOfEntry=DateTime.Now, RegionId=12, Address="Dantejeva ulica 31, 6300 Piran", Size=50, Year=2021, ImageLink="https://i.imgur.com/hWfismm.gif", Description="This is description.", Price=1000, ListingType=2, GroupId=7, Owner=user},
+                new Listing{DateOfEntry=DateTime.Now, RegionId=8, Address="Primorska ulica 10, 1000 Ljubljana", Size=102, Year=2000, ImageLink="https://miro.medium.com/max/10816/1*eO3CIaFBe7LMRePApDwSYA.jpeg", Description="Zelo blizu faksov in ZOO.", Price=100000, ListingType=1, GroupId=2, Owner=user1},
+                new Listing{DateOfEntry=DateTime.Now, RegionId=8, Address="Slovenska cesta 5, 1000 Ljubljana", Size=45, Year=2020, ImageLink="https://cache.100kvadratov.si/image/project/58/large_ljn/1/accamera1__5d2f222a8d257.jpg", Description="Center Ljubljane", Price=750, ListingType=2, GroupId=7, Owner=user1},
+                new Listing{DateOfEntry=DateTime.Now, RegionId=12, Address="Dantejeva ulica 31, 6300 Piran", Size=50, Year=2021, ImageLink="https://i.imgur.com/hWfismm.gif", Description="V bližini nočnih klubov", Price=1000, ListingType=2, GroupId=7, Owner=user1},
+                new Listing{DateOfEntry=DateTime.Now, RegionId=8, Address="Hruševska cesta 140, 1261 Ljubljana", Size=76, Year=2002, ImageLink="https://img.nepremicnine.link/slonep_oglasi2/7520688.jpg", Description="Za obiskovalce je na voljo 6 parkirnih mest.", Price=208000, ListingType=1, GroupId=6, Owner=user2},
+                new Listing{DateOfEntry=DateTime.Now, RegionId=8, Address="Brdo, 1230 Domžale", Size=103, Year=2019, ImageLink="https://www.kras-nepremicnine.si/site/assets/files/1393/image1.jpeg", Description="Sodobno zasnovano.", Price=385900, ListingType=1, GroupId=6, Owner=user2},
+                new Listing{DateOfEntry=DateTime.Now, RegionId=8, Address="Brdnikova ulica 2, 1230 Domžale", Size=131, Year=2019, ImageLink="https://cache.100kvadratov.si/image/project/58/large_ljn/1/accamera1__5d2f222a8d257.jpg", Description="Pogled na Rožnik.", Price=460000, ListingType=1, GroupId=6, Owner=user2},
+                new Listing{DateOfEntry=DateTime.Now, RegionId=8, Address="Bežigrajska cesta 7, 1000 Ljubljana", Size=188, Year=2012, ImageLink="https://cache.100kvadratov.si/image/item/83/site/list_portal/4/img-4bd56aaebaf4bcfca80a2b79b368f5dc-v__5ebbde75109ae.jpg", Description="Pogled na Rožnik.", Price=690000, ListingType=1, GroupId=6, Owner=user2},
+                new Listing{DateOfEntry=DateTime.Now, RegionId=8, Address="Cesta na vič 1, 1000 Ljubljana", Size=130, Year=1968, ImageLink="https://miro.medium.com/max/10816/1*eO3CIaFBe7LMRePApDwSYA.jpeg", Description="Bližina gostilne.", Price=410000, ListingType=1, GroupId=1, Owner=user2},
+                new Listing{DateOfEntry=DateTime.Now, RegionId=8, Address="Srbska cesta 7, 1000 Ljubljana", Size=347, Year=1964, ImageLink="https://cache.100kvadratov.si/image/item/83/site/list_portal/4/img-4bd56aaebaf4bcfca80a2b79b368f5dc-v__5ebbde75109ae.jpg", Description="Adaptirana l. 2018", Price=680000, ListingType=1, GroupId=1, Owner=user2},
+                new Listing{DateOfEntry=DateTime.Now, RegionId=8, Address="Rožanska ulica 25, 1000 Ljubljana", Size=568, Year=1960, ImageLink="https://miro.medium.com/max/10816/1*eO3CIaFBe7LMRePApDwSYA.jpeg", Description="Odlično ohranjena", Price=1290000, ListingType=1, GroupId=1, Owner=user2},
+                new Listing{DateOfEntry=DateTime.Now, RegionId=3, Address="Pristava 13, 2393 Črna na Koroškem", Size=24, Year=1976, ImageLink="https://img.nepremicnine.link/slonep_oglasi2/7520688.jpg", Description="Odlično ohranjena", Price=200, ListingType=2, GroupId=6, Owner=user2},
+                new Listing{DateOfEntry=DateTime.Now, RegionId=3, Address="Pristava 13, 2393 Črna na Koroškem", Size=15, Year=1976, ImageLink="https://www.kras-nepremicnine.si/site/assets/files/1393/image1.jpeg", Description="Odlično ohranjena", Price=130, ListingType=2, GroupId=6, Owner=user2},
+                new Listing{DateOfEntry=DateTime.Now, RegionId=3, Address="Podgorska cesta, 2380 Slovenj Gradec", Size=15, Year=2005, ImageLink="https://cache.100kvadratov.si/image/item/83/site/list_portal/4/img-4bd56aaebaf4bcfca80a2b79b368f5dc-v__5ebbde75109ae.jpg", Description="Odlično ohranjena", Price=250, ListingType=2, GroupId=7, Owner=user2},
+                new Listing{DateOfEntry=DateTime.Now, RegionId=12, Address="Frenkova ulica 10, 6280 Ankaran", Size=35, Year=2010, ImageLink="https://cache.100kvadratov.si/image/project/58/large_ljn/1/accamera1__5d2f222a8d257.jpg", Description="Prenovljena kuhinja.", Price=390, ListingType=2, GroupId=6, Owner=user1},
+                new Listing{DateOfEntry=DateTime.Now, RegionId=12, Address="Frenkova ulica 13, 6280 Ankaran", Size=53, Year=2013, ImageLink="https://img.nepremicnine.link/slonep_oglasi2/7520688.jpg", Description="Pogled na morje.", Price=670, ListingType=2, GroupId=7, Owner=user1},
+                new Listing{DateOfEntry=DateTime.Now, RegionId=12, Address="Dantejeva ulica 33, 6300 Piran", Size=50, Year=2010, ImageLink="https://miro.medium.com/max/10816/1*eO3CIaFBe7LMRePApDwSYA.jpeg", Description="Bližina restavracij.", Price=400, ListingType=2, GroupId=5, Owner=user1},
+                new Listing{DateOfEntry=DateTime.Now, RegionId=12, Address="Podgorska cesta, 2380 Slovenj Gradec", Size=30, Year=2013, ImageLink="https://www.kras-nepremicnine.si/site/assets/files/1393/image1.jpeg", Description="Ima klimo.", Price=300, ListingType=2, GroupId=5, Owner=user1}
             };
 
             foreach (Listing e in listings)
@@ -211,9 +247,16 @@ namespace web.Data
 
             var favorites = new Favorite[]
             {
-                new Favorite{ListingId = listings[0].Id, UserId=user.Id},
-                new Favorite{ListingId = listings[1].Id, UserId=user.Id},
-                new Favorite{ListingId = listings[2].Id, UserId=user.Id}
+                new Favorite{ListingId = listings[4].Id, UserId=user1.Id},
+                new Favorite{ListingId = listings[7].Id, UserId=user1.Id},
+                new Favorite{ListingId = listings[11].Id, UserId=user1.Id},
+                new Favorite{ListingId = listings[16].Id, UserId=user1.Id},
+                new Favorite{ListingId = listings[15].Id, UserId=user1.Id},
+                new Favorite{ListingId = listings[13].Id, UserId=user1.Id},
+                new Favorite{ListingId = listings[0].Id, UserId=user2.Id},
+                new Favorite{ListingId = listings[2].Id, UserId=user2.Id},
+                new Favorite{ListingId = listings[6].Id, UserId=user2.Id},
+                new Favorite{ListingId = listings[10].Id, UserId=user2.Id}
             };
 
             foreach (Favorite e in favorites)
