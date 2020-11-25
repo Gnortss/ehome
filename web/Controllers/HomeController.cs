@@ -34,7 +34,7 @@ namespace web.Controllers
             ViewData["Favorite"] = currentUser != null ? _context.Favorite.Where(l => l.User == currentUser).ToList() : null;
             
             if(this.NoneNull(group, listing, region, size, year, price)) {
-                var (intlSize, hSize) = this.Deconstruct(size, "size");
+                var (lSize, hSize) = this.Deconstruct(size, "size");
                 var (lYear, hYear) = this.Deconstruct(year, "year");
                 var (lPrice, hPrice) = this.Deconstruct(price, "price");
 
@@ -43,7 +43,7 @@ namespace web.Controllers
                     .Include(l => l.REGroup)
                     .Include(l => l.Region)
                     .Where(l => l.REGroup.Group == group && l.ListingType == listing && l.RegionId == region
-                        && (lPrice <= l.Price && l.Price <= hPrice)
+                        && (lSize <= l.Size && l.Size <= hSize)
                         && (lYear <= l.Year && l.Year <= hYear)
                         && (lPrice <= l.Price && l.Price <= hPrice))
                     .OrderByDescending(l => l.DateOfEntry);
