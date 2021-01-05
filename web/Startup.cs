@@ -30,7 +30,7 @@ namespace web
             services.AddControllersWithViews();
 
             services.AddDbContext<EhomeContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("EhomeContext")));
+                options.UseSqlServer(Configuration.GetConnectionString("AzureContext")));
             
             services.AddIdentity<ApplicationUser, IdentityRole>(options =>
                 options.Stores.MaxLengthForKeys=128)
