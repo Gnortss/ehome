@@ -105,7 +105,7 @@ namespace web.Controllers
         }
 
         // GET: Listings/Edit/5/{userid?}
-        // [Authorize]
+        [Authorize]
         [HttpGet]
         [Route("Listings/Edit/{id?}")]
         public async Task<IActionResult> Edit(int? id)
@@ -207,7 +207,8 @@ namespace web.Controllers
         }
 
         // POST: Listings/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
+        [ActionName("Delete")]
         [Route("Listings/Delete/{id}")]
         [ValidateAntiForgeryToken]
         [Authorize]
