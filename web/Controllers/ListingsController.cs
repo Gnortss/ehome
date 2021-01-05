@@ -39,10 +39,10 @@ namespace web.Controllers
         }
 
         // GET: Listings/Details/5
-        [Route("Listings/Details/{id?}/{userid?}")]
-        public async Task<IActionResult> Details(int? id, string userid)
+        [HttpGet]
+        [Route("Listings/Details/{id?}")]
+        public async Task<IActionResult> Details(int? id)
         {
-            ViewData["UserId"] = userid;
 
             if (id == null)
             {
@@ -54,11 +54,17 @@ namespace web.Controllers
                 .Include(l => l.LType)
                 .Include(l => l.REGroup)
                 .Include(l => l.REGroup.REType)
+                .Include(l => l.Owner)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (listing == null)
             {
                 return NotFound();
             }
+
+            var userid = listing.Owner.Id;
+
+            if(_usermanager.IsInRoleAsync(_usermanager.GetUserAsync(User).Result, "Administrator").Result)
+                ViewData["UserId"] = userid;
 
             return View(listing);
         }
@@ -100,18 +106,18 @@ namespace web.Controllers
 
         // GET: Listings/Edit/5/{userid?}
         // [Authorize]
-        [Route("Listings/Edit/{id?}/{userid?}")]
-        public async Task<IActionResult> Edit(int? id, string userid)
+        [HttpGet]
+        [Route("Listings/Edit/{id?}")]
+        public async Task<IActionResult> Edit(int? id)
         {
             var currentUser = await _usermanager.GetUserAsync(User);
             ViewData["isLogged"] = currentUser != null;
-            ViewData["UserId"] = userid;
             if (id == null)
             {
                 return NotFound();
             }
 
-            var listing = await _context.Listings.FindAsync(id);
+            var listing = await _context.Listings.Include(l => l.Owner).FirstOrDefaultAsync(m => m.Id == id);
             var group = await _context.RealEstateGroup.FindAsync(listing.GroupId);
             if (listing == null)
             {
@@ -120,6 +126,8 @@ namespace web.Controllers
             ViewData["ListingType"] = new SelectList(_context.ListingType, "Id", "Type", listing.ListingType);
             ViewData["FullGroup"] = new SelectList(_context.RealEstateGroup.Where(e => e.Group == group.Group), "Id", "FullName", group.TypeId);
             ViewData["Region"] = new SelectList(_context.Region, "Id", "Name", listing.RegionId);
+            if(_usermanager.IsInRoleAsync(_usermanager.GetUserAsync(User).Result, "Administrator").Result)
+                ViewData["UserId"] = listing.Owner.Id;
             return View(listing);
         }
 
@@ -127,16 +135,16 @@ namespace web.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [Route("Listings/Edit/{id?}/{userid?}")]
+        [Route("Listings/Edit/{id?}")]
         [ValidateAntiForgeryToken]
         [Authorize]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,DateOfEntry,RegionId,Address,Size,Year,ImageLink,Description,Price,GroupId,ListingType")] Listing listing, string userid)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,DateOfEntry,RegionId,Address,Size,Year,ImageLink,Description,Price,GroupId,ListingType")] Listing listing)
         {
             if (id != listing.Id)
             {
                 return NotFound();
             }
-            var l = await _context.Listings.FindAsync(id);
+            var l = await _context.Listings.Include(l => l.Owner).FirstOrDefaultAsync(m => m.Id == id);
             var group = await _context.RealEstateGroup.FindAsync(l.GroupId);
             ViewData["ListingType"] = new SelectList(_context.ListingType, "Id", "Type", l.ListingType);
             ViewData["FullGroup"] = new SelectList(_context.RealEstateGroup.Where(e => e.Group == group.Group), "Id", "FullName", group.TypeId);
@@ -163,8 +171,8 @@ namespace web.Controllers
                         throw;
                     }
                 }
-                if(userid != null)
-                    return RedirectToAction("Details", "Admin", new {id=userid});
+                if(_usermanager.IsInRoleAsync(_usermanager.GetUserAsync(User).Result, "Administrator").Result)
+                    return RedirectToAction("Details", "Admin", new {id=l.Owner.Id});
 
                 return RedirectToAction(nameof(Index));
             }
@@ -172,9 +180,10 @@ namespace web.Controllers
         }
 
         // GET: Listings/Delete/5
-        [Route("Listings/Delete/{id?}/{userid?}")]
+        [HttpGet]
+        [Route("Listings/Delete/{id?}")]
         [Authorize]
-        public async Task<IActionResult> Delete(int? id, string userid)
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
@@ -185,28 +194,31 @@ namespace web.Controllers
                 .Include(l => l.LType)
                 .Include(l => l.REGroup)
                 .Include(l => l.Region)
+                .Include(l => l.Owner)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (listing == null)
             {
                 return NotFound();
             }
 
+            if(_usermanager.IsInRoleAsync(_usermanager.GetUserAsync(User).Result, "Administrator").Result)
+                ViewData["UserId"] = listing.Owner.Id;
             return View(listing);
         }
 
         // POST: Listings/Delete/5
         [HttpPost, ActionName("Delete")]
-        [Route("Listings/Delete/{id}/{userid?}")]
+        [Route("Listings/Delete/{id}")]
         [ValidateAntiForgeryToken]
         [Authorize]
-        public async Task<IActionResult> DeleteConfirmed(int id, string userid)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var listing = await _context.Listings.FindAsync(id);
+            var listing = await _context.Listings.Include(l => l.Owner).FirstOrDefaultAsync(m => m.Id == id);
             _context.Listings.Remove(listing);
             await _context.SaveChangesAsync();
             
-            if(userid != null)
-                return RedirectToAction("Details", "Admin", new {id=userid});
+            if(_usermanager.IsInRoleAsync(_usermanager.GetUserAsync(User).Result, "Administrator").Result)
+                return RedirectToAction("Details", "Admin", new {id=listing.Owner.Id});
             return RedirectToAction(nameof(Index));
         }
 

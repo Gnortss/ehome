@@ -37,6 +37,8 @@ namespace web
                 .AddEntityFrameworkStores<EhomeContext>()
                 .AddDefaultUI()
                 .AddDefaultTokenProviders();
+            
+            services.AddSwaggerGen();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -66,6 +68,11 @@ namespace web
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
+            });
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c => {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "EhomeAPI-v1");
             });
         }
     }

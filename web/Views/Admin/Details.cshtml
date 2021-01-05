@@ -82,9 +82,9 @@
                             @Html.DisplayFor(modelItem => item.Price)
                         </td>    
                         <td>
-                            <a asp-controller="Listings" asp-action="Edit" asp-route-id="@item.Id" asp-route-userid="@Model.Id">Uredi</a> |
-                            <a asp-controller="Listings" asp-action="Details" asp-route-id="@item.Id" asp-route-userid="@Model.Id">Podrobnosti</a> |
-                            <a asp-controller="Listings" asp-action="Delete" asp-route-id="@item.Id" asp-route-userid="@Model.Id">Izbriši</a>
+                            <a asp-controller="Listings" asp-action="Edit" asp-route-id="@item.Id">Uredi</a> |
+                            <a asp-controller="Listings" asp-action="Details" asp-route-id="@item.Id">Podrobnosti</a> |
+                            <a asp-controller="Listings" asp-action="Delete" asp-route-id="@item.Id">Izbriši</a>
                         </td>
                     </tr>
                 }
