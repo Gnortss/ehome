@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using web.Data;
 using web.Models;
+using web.Filters;
 
 namespace web.Controllers_Api
 {
@@ -46,6 +47,7 @@ namespace web.Controllers_Api
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
+        [ApiKeyAuth]
         public async Task<IActionResult> PutListing(int id, Listing listing)
         {
             if (id != listing.Id)
@@ -78,6 +80,7 @@ namespace web.Controllers_Api
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
+        [ApiKeyAuth]
         public async Task<ActionResult<Listing>> PostListing(Listing listing)
         {
             _context.Listings.Add(listing);
@@ -88,6 +91,7 @@ namespace web.Controllers_Api
 
         // DELETE: api/ListingsApi/5
         [HttpDelete("{id}")]
+        [ApiKeyAuth]
         public async Task<ActionResult<Listing>> DeleteListing(int id)
         {
             var listing = await _context.Listings.FindAsync(id);
