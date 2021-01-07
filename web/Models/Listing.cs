@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace web.Models
 {
@@ -44,6 +45,9 @@ namespace web.Models
         public int ListingType { get; set; }
         [ForeignKey("ListingType")]
         public ListingType LType { get; set;}
+        [ForeignKey("Owner")]
+        public String OwnerId {get; set;}
+
         public ApplicationUser Owner { get; set; }
 
         public List<Favorite> Favorites { get; set; }

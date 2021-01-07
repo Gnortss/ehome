@@ -94,6 +94,7 @@ namespace web.Controllers
                     listing.ImageLink = this.getRandomImage();
                 listing.DateOfEntry = DateTime.Now;
                 listing.Owner = currentUser;
+                listing.OwnerId = currentUser.Id;
                 _context.Add(listing);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
