@@ -63,7 +63,8 @@ namespace web.Controllers
 
             var userid = listing.Owner.Id;
 
-            if(_usermanager.IsInRoleAsync(_usermanager.GetUserAsync(User).Result, "Administrator").Result)
+            var user = await _usermanager.GetUserAsync(User);
+            if(user != null && await _usermanager.IsInRoleAsync(user, "Administrator"))
                 ViewData["UserId"] = userid;
 
             return View(listing);
@@ -127,7 +128,8 @@ namespace web.Controllers
             ViewData["ListingType"] = new SelectList(_context.ListingType, "Id", "Type", listing.ListingType);
             ViewData["FullGroup"] = new SelectList(_context.RealEstateGroup.Where(e => e.Group == group.Group), "Id", "FullName", group.TypeId);
             ViewData["Region"] = new SelectList(_context.Region, "Id", "Name", listing.RegionId);
-            if(_usermanager.IsInRoleAsync(_usermanager.GetUserAsync(User).Result, "Administrator").Result)
+            var user = await _usermanager.GetUserAsync(User);
+            if(user != null && await _usermanager.IsInRoleAsync(user, "Administrator"))
                 ViewData["UserId"] = listing.Owner.Id;
             return View(listing);
         }
@@ -172,7 +174,8 @@ namespace web.Controllers
                         throw;
                     }
                 }
-                if(_usermanager.IsInRoleAsync(_usermanager.GetUserAsync(User).Result, "Administrator").Result)
+                var user = await _usermanager.GetUserAsync(User);
+                if(user != null && await _usermanager.IsInRoleAsync(user, "Administrator"))
                     return RedirectToAction("Details", "Admin", new {id=l.Owner.Id});
 
                 return RedirectToAction(nameof(Index));
@@ -202,7 +205,8 @@ namespace web.Controllers
                 return NotFound();
             }
 
-            if(_usermanager.IsInRoleAsync(_usermanager.GetUserAsync(User).Result, "Administrator").Result)
+            var user = await _usermanager.GetUserAsync(User);
+            if(user != null && await _usermanager.IsInRoleAsync(user, "Administrator"))
                 ViewData["UserId"] = listing.Owner.Id;
             return View(listing);
         }
@@ -219,7 +223,8 @@ namespace web.Controllers
             _context.Listings.Remove(listing);
             await _context.SaveChangesAsync();
             
-            if(_usermanager.IsInRoleAsync(_usermanager.GetUserAsync(User).Result, "Administrator").Result)
+            var user = await _usermanager.GetUserAsync(User);
+            if(user != null && await _usermanager.IsInRoleAsync(user, "Administrator"))
                 return RedirectToAction("Details", "Admin", new {id=listing.Owner.Id});
             return RedirectToAction(nameof(Index));
         }
