@@ -14,6 +14,7 @@ namespace web.Controllers_Api
 {
     [Route("api/v1/Listing")]
     [ApiController]
+    [ApiKeyAuth]
     public class ListingsApiController : ControllerBase
     {
         private readonly EhomeContext _context;
@@ -59,7 +60,6 @@ namespace web.Controllers_Api
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        [ApiKeyAuth]
         public async Task<IActionResult> PutListing(int id, Listing listing)
         {
             if (id != listing.Id)
@@ -92,7 +92,6 @@ namespace web.Controllers_Api
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        [ApiKeyAuth]
         public async Task<ActionResult<Listing>> PostListing([Bind("regionId,address,size,year,imageLink,description,price,groupId,listingType,ownerId")] Listing listing)
         {
             if (ModelState.IsValid)
@@ -111,7 +110,6 @@ namespace web.Controllers_Api
 
         // DELETE: api/ListingsApi/5
         [HttpDelete("{id}")]
-        [ApiKeyAuth]
         public async Task<ActionResult<Listing>> DeleteListing(int id)
         {
             var listing = await _context.Listings.FindAsync(id);
