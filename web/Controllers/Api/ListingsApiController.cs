@@ -35,6 +35,7 @@ namespace web.Controllers_Api
                 .Include(l => l.Region)
                 .Include(l => l.REGroup)
                 .Include(l => l.LType)
+                .OrderByDescending(l => l.DateOfEntry)
                 .ToListAsync();
         }
 
