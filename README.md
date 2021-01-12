@@ -5,7 +5,8 @@
  - Jure Časar, 63180069, jc2484@student.uni-lj.si
 
 ### Android aplikacija
-![]
+![](https://github.com/Gnortss/ehome/blob/master/slika_1.png)
+![](https://github.com/Gnortss/ehome/blob/master/slika_2.png)
 
 ### Domain description
 Create a web application, where users can advertise or search for Real Estate.
