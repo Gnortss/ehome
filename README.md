@@ -1,8 +1,11 @@
 # eHome
 
-### Authors
+### Avtorja
  - Denis Feratović, 63170087, df1538@student.uni-lj.si
  - Jure Časar, 63180069, jc2484@student.uni-lj.si
+
+### Android aplikacija
+![]
 
 ### Domain description
 Create a web application, where users can advertise or search for Real Estate.
